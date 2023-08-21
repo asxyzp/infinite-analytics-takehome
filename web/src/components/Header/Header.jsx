@@ -10,6 +10,7 @@ import Button from '../Button/Button'
 import IconButton from '../IconButton/IconButton'
 
 // CUSTOM COMPONENTS
+// CUSTOM BOX COMPONENT
 const CustomBox = styled(Box)(() => ({
   '&.MuiBox-root': {
     padding: '10px',
