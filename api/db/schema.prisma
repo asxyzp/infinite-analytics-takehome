@@ -25,8 +25,11 @@ model Invoice {
   status InvoiceStatus
 
   // DATE
-  issueAt       DateTime
+  title         String
+  description   String
+  issueAt       DateTime @default(now())
   dueAt         DateTime
+  sellerLogo    String?
   sellerName    String
   sellerAddress String?
   sellerPhone   String?
