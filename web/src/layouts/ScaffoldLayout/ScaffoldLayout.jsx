@@ -5,9 +5,7 @@ import Header from 'src/components/Header/Header'
 // CUSTOM COMPONENTS
 // CUSTOM BOX COMPONENT
 const CustomBox = styled(Box)(() => ({
-  '&.MuiBox-root': {
-    padding: '0px 10px 10px',
-  },
+  '&.MuiBox-root': {},
 }))
 
 const ScaffoldLayout = ({ children }) => {
