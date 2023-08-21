@@ -95,7 +95,7 @@ const DarkTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Source Sans 3',
+    fontFamily: "'Open Sans', sans-serif",
     h1: {
       fontFamily: 'Raleway',
     },
@@ -113,6 +113,15 @@ const DarkTheme = createTheme({
     },
     h6: {
       fontFamily: 'Raleway',
+    },
+    body1: {
+      fontFamily: "'Open Sans', sans-serif",
+    },
+    body2: {
+      fontFamily: "'Open Sans', sans-serif",
+    },
+    button: {
+      fontFamily: "'Open Sans', sans-serif",
     },
     fontSize: 16,
   },
