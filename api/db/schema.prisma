@@ -1,0 +1,40 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// STATUS OF INVOICE
+enum InvoiceStatus {
+  OUTSTANDING
+  PAID
+  LATE
+}
+
+// MODEL FOR STORING USER DATA
+model Invoice {
+  // METADATA
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  // TYPES
+  status InvoiceStatus
+
+  // DATE
+  issueAt       DateTime
+  dueAt         DateTime
+  sellerName    String
+  sellerAddress String?
+  sellerPhone   String?
+  sellerEmail   String?
+  buyerName     String
+  buyerAddress  String?
+  buyerPhone    String?
+  buyerEmail    String?
+  lineItems     Json
+  paymentTerms  String
+}
