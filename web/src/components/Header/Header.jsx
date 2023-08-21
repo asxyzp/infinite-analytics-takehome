@@ -13,12 +13,13 @@ import IconButton from '../IconButton/IconButton'
 // CUSTOM BOX COMPONENT
 const CustomBox = styled(Box)(() => ({
   '&.MuiBox-root': {
-    padding: '10px',
+    padding: '10px 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   '& .header-app-name': {
+    fontSize: '1.5em',
     fontWeight: 'bolder',
     textDecoration: 'none',
   },
@@ -50,7 +51,7 @@ const Header = () => {
         <Typography
           component={Link}
           to={routes.invoices()}
-          variant="h5"
+          variant="logo"
           className="header-app-name"
           color="primary"
         >
@@ -75,7 +76,7 @@ const Header = () => {
           </Link>
         </Box>
       </CustomBox>
-      <Divider sx={{ mb: '20px' }} />
+      <Divider />
     </>
   )
 }

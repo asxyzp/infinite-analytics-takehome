@@ -95,6 +95,11 @@ const LightTheme = createTheme({
   },
   typography: {
     fontFamily: "'Open Sans', sans-serif",
+    logo: {
+      fontFamily: "'Space Grotesk', sans-serif",
+      fontWeight: '900',
+      fontSize: '1.4rem',
+    },
     h1: {
       fontFamily: 'Raleway',
     },

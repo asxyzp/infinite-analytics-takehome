@@ -96,6 +96,9 @@ const DarkTheme = createTheme({
   },
   typography: {
     fontFamily: "'Open Sans', sans-serif",
+    logo: {
+      fontFamily: "'Space Grotesk', sans-serif",
+    },
     h1: {
       fontFamily: 'Raleway',
     },
