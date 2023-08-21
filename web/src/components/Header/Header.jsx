@@ -1,5 +1,5 @@
 import { DarkMode, LightMode } from '@mui/icons-material'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Divider, Typography, styled } from '@mui/material'
 import { useRecoilState } from 'recoil'
 
 import { Link, routes } from '@redwoodjs/router'
@@ -14,7 +14,6 @@ import IconButton from '../IconButton/IconButton'
 const CustomBox = styled(Box)(() => ({
   '&.MuiBox-root': {
     padding: '10px',
-    marginBottom: '20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -46,35 +45,38 @@ const Header = () => {
   const toggleDarkMode = () => setDarkMode(!isDarkMode)
 
   return (
-    <CustomBox component="header">
-      <Typography
-        component={Link}
-        to={routes.invoices()}
-        variant="h5"
-        className="header-app-name"
-        color="primary"
-      >
-        Invogen
-      </Typography>
-      <Box className="header-actions-container">
-        <IconButton
-          className="header-theme-toggle-button"
-          onClick={toggleDarkMode}
+    <>
+      <CustomBox component="header">
+        <Typography
+          component={Link}
+          to={routes.invoices()}
+          variant="h5"
+          className="header-app-name"
+          color="primary"
         >
-          {isDarkMode ? <DarkMode /> : <LightMode />}
-        </IconButton>
-        <Link to={routes.newInvoice()}>
-          <Button
-            size="xs"
-            color="primary"
-            variant="outlined"
-            className="header-create-invoice-link"
+          Invogen
+        </Typography>
+        <Box className="header-actions-container">
+          <IconButton
+            className="header-theme-toggle-button"
+            onClick={toggleDarkMode}
           >
-            New invoice
-          </Button>
-        </Link>
-      </Box>
-    </CustomBox>
+            {isDarkMode ? <DarkMode /> : <LightMode />}
+          </IconButton>
+          <Link to={routes.newInvoice()}>
+            <Button
+              size="xs"
+              color="primary"
+              variant="outlined"
+              className="header-create-invoice-link"
+            >
+              New invoice
+            </Button>
+          </Link>
+        </Box>
+      </CustomBox>
+      <Divider sx={{ mb: '20px' }} />
+    </>
   )
 }
 
