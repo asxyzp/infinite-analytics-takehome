@@ -19,9 +19,10 @@ const CustomBox = styled(Box)(() => ({
     alignItems: 'center',
   },
   '& .header-app-name': {
-    fontSize: '1.5em',
+    fontSize: '2em',
     fontWeight: 'bolder',
     textDecoration: 'none',
+    lineHeight: '1',
   },
   '& .header-actions-container': {
     display: 'flex',
