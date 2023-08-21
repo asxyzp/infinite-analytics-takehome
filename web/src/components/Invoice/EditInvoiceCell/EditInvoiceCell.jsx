@@ -11,8 +11,11 @@ export const QUERY = gql`
       createdAt
       updateAt
       status
+      title
+      description
       issueAt
       dueAt
+      sellerLogo
       sellerName
       sellerAddress
       sellerPhone
@@ -33,8 +36,11 @@ const UPDATE_INVOICE_MUTATION = gql`
       createdAt
       updateAt
       status
+      title
+      description
       issueAt
       dueAt
+      sellerLogo
       sellerName
       sellerAddress
       sellerPhone
