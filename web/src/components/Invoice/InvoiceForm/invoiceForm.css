@@ -1,0 +1,32 @@
+.invoice-form {
+  width: 30%;
+  position: relative;
+}
+.invoice-container {
+  width: 70%;
+}
+.invoice-form-buttons {
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+.invoice-view-button {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .invoice-form {
+    width: 100%;
+  }
+  .invoice-container {
+    width: 0%;
+  }
+  .invoice-form-buttons {
+    position: sticky;
+    bottom: 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .invoice-view-button {
+    display: flex;
+  }
+}

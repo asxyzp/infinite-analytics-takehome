@@ -1,16 +1,13 @@
-import { Box, styled } from '@mui/material'
+import { Publish, Visibility } from '@mui/icons-material'
+import { Box, Typography, styled } from '@mui/material'
 
-import {
-  Form,
-  FormError,
-  FieldError,
-  Label,
-  DatetimeLocalField,
-} from '@redwoodjs/forms'
+import { Form } from '@redwoodjs/forms'
 
+import Alert from 'src/components/Alert/Alert'
 import Button from 'src/components/Button/Button'
 import Fieldset from 'src/components/Fieldset/Fieldset'
 import Input from 'src/components/Input/Input'
+import './invoiceForm.css'
 
 const formatDatetime = (value) => {
   if (value) {
@@ -19,10 +16,36 @@ const formatDatetime = (value) => {
 }
 
 const CustomBox = styled(Box)(({ theme }) => ({
-  '&.MuiBox-root > form': {
-    width: '35%',
-    padding: '20px',
+  '&.invoice-form-container': {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100%',
+    overflow: 'hidden',
+  },
+  '& .invoice-form': {
+    padding: '10px 20px',
+    height: '100%',
+    overflow: 'hidden',
     borderRight: `1px solid ${theme.palette.divider}`,
+  },
+  '& .form-title': {
+    fontWeight: 'bold',
+    marginBottom: '-5px',
+  },
+  '& .form-description': {
+    marginBottom: '10px',
+  },
+  '& .invoice-form-buttons': {
+    background: theme.palette.background.default,
+  },
+  '& .invoice-container': {
+    background:
+      theme.palette.mode === 'light'
+        ? theme.palette.grey['main']
+        : theme.palette.background.paper,
+  },
+  '& .invoice-form-alert': {
+    marginTop: '10px',
   },
 }))
 
@@ -32,10 +55,18 @@ const InvoiceForm = (props) => {
   }
 
   return (
-    <CustomBox>
-      <Form onSubmit={onSubmit} error={props.error}>
+    <CustomBox className="invoice-form-container">
+      <Form className="invoice-form" onSubmit={onSubmit} error={props.error}>
+        <Typography variant="h6" className="form-title">
+          Generate invoice
+        </Typography>
+        <Typography variant="body2" className="form-description">
+          Add details to create a new invoice
+        </Typography>
+
         <Fieldset legend="Basic invoice details">
           <Input
+            type="text"
             defaultValue={props.invoice?.title}
             label="Invoice title"
             size="small"
@@ -44,6 +75,7 @@ const InvoiceForm = (props) => {
             required
           />
           <Input
+            type="text"
             defaultValue={props.invoice?.description}
             label="Invoice description"
             size="small"
@@ -54,11 +86,13 @@ const InvoiceForm = (props) => {
             required
           />
           <Input
+            type="text"
             defaultValue={props.invoice?.paymentTerms}
-            validation={{ required: true }}
             label="Terms of payment"
             size="small"
             margin="medium"
+            multiline={true}
+            minRows={4}
             fullWidth
             required
           />
@@ -76,6 +110,7 @@ const InvoiceForm = (props) => {
 
         <Fieldset legend="Seller's information">
           <Input
+            type="text"
             label="Seller's name"
             defaultValue={props.invoice?.sellerName}
             size="small"
@@ -83,25 +118,14 @@ const InvoiceForm = (props) => {
             fullWidth
             required
           />
-
           <Input
-            defaultValue={props.invoice?.sellerAddress}
-            label="Seller's address"
-            multiline={true}
-            minRows={4}
-            size="small"
-            margin="medium"
-            fullWidth
-          />
-
-          <Input
+            type="tel"
             defaultValue={props.invoice?.sellerPhone}
             label="Seller's phone number"
             size="small"
             margin="medium"
             fullWidth
           />
-
           <Input
             type="email"
             label="Seller's email address"
@@ -110,10 +134,21 @@ const InvoiceForm = (props) => {
             margin="medium"
             fullWidth
           />
+          <Input
+            type="text"
+            defaultValue={props.invoice?.sellerAddress}
+            label="Seller's address"
+            multiline={true}
+            minRows={4}
+            size="small"
+            margin="medium"
+            fullWidth
+          />
         </Fieldset>
 
         <Fieldset legend="Buyer's information">
           <Input
+            type="text"
             label="Buyer's name"
             defaultValue={props.invoice?.buyerName}
             validation={{ required: true }}
@@ -123,15 +158,7 @@ const InvoiceForm = (props) => {
             required
           />
           <Input
-            defaultValue={props.invoice?.buyerAddress}
-            label="Buyer's address"
-            size="small"
-            margin="medium"
-            multiline={true}
-            minRows={4}
-            fullWidth
-          />
-          <Input
+            type="tel"
             defaultValue={props.invoice?.buyerPhone}
             label="Buyer's phone number"
             size="small"
@@ -146,17 +173,51 @@ const InvoiceForm = (props) => {
             label="Buyer's email address"
             fullWidth
           />
+          <Input
+            type="text"
+            defaultValue={props.invoice?.buyerAddress}
+            label="Buyer's address"
+            size="small"
+            margin="medium"
+            multiline={true}
+            minRows={4}
+            fullWidth
+          />
         </Fieldset>
 
-        <Button
-          disabled={props.loading}
-          variant="contained"
-          size="small"
-          fullWidth
-        >
-          Submit
-        </Button>
+        <Fieldset legend="Line items">abcd</Fieldset>
+
+        <Box className="invoice-form-buttons">
+          <Button
+            disabled={props.loading}
+            variant="outlined"
+            size="small"
+            margin="medium"
+            className="invoice-view-button"
+            fullWidth
+            startIcon={<Visibility />}
+          >
+            View
+          </Button>
+          <Button
+            type="submit"
+            disabled={props.loading}
+            variant="contained"
+            size="small"
+            className="invoice-submit-button"
+            fullWidth
+            startIcon={<Publish />}
+          >
+            Submit
+          </Button>
+          {props.error && (
+            <Box className="invoice-form-alert">
+              <Alert severity="error">{props.error?.message}</Alert>
+            </Box>
+          )}
+        </Box>
       </Form>
+      <Box className="invoice-container"></Box>
     </CustomBox>
   )
 }
