@@ -27,6 +27,9 @@ const CustomInputLabel = styled(InputLabel)(() => ({
   '&.MuiInputLabel-root': {
     marginBottom: '2.5px',
   },
+  '& .MuiInputLabel-required': {
+    fontWeight: 'bolder',
+  },
 }))
 
 // CUSTOM INPUT COMPONENT
@@ -115,7 +118,18 @@ const Input = ({ label, margin, errorText, formHelperText, ...props }) => {
     <CustomBox className={marginClass}>
       {label && (
         <CustomInputLabel>
-          <Typography variant="body2">{label}</Typography>
+          <Typography variant="body2">
+            {label}
+            {props.required && (
+              <Typography
+                component="span"
+                color="error"
+                className="MuiInputLabel-required"
+              >
+                *
+              </Typography>
+            )}
+          </Typography>
         </CustomInputLabel>
       )}
       <CustomInput {...props} notched={false} />
