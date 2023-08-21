@@ -95,7 +95,7 @@ const DarkTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Source Sans Pro',
+    fontFamily: 'Source Sans 3',
     h1: {
       fontFamily: 'Raleway',
     },
