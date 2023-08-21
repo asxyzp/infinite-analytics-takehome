@@ -1,5 +1,4 @@
 import { navigate, routes } from '@redwoodjs/router'
-
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
@@ -75,20 +74,11 @@ export const Success = ({ invoice }) => {
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">
-          Edit Invoice {invoice?.id}
-        </h2>
-      </header>
-      <div className="rw-segment-main">
-        <InvoiceForm
-          invoice={invoice}
-          onSave={onSave}
-          error={error}
-          loading={loading}
-        />
-      </div>
-    </div>
+    <InvoiceForm
+      invoice={invoice}
+      onSave={onSave}
+      error={error}
+      loading={loading}
+    />
   )
 }
