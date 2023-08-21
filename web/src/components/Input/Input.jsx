@@ -15,7 +15,7 @@ const CustomBox = styled(MuiBox)(() => ({
     marginBottom: '5px',
   },
   '&.MuiOutlinedInput-margin-medium': {
-    marginBottom: '12.5px',
+    marginBottom: '10px',
   },
   '&.MuiOutlinedInput-margin-large': {
     marginBottom: '20px',
@@ -25,7 +25,7 @@ const CustomBox = styled(MuiBox)(() => ({
 // CUSTOM BOX COMPONENT
 const CustomInputLabel = styled(InputLabel)(() => ({
   '&.MuiInputLabel-root': {
-    marginBottom: '5px',
+    marginBottom: '2.5px',
   },
 }))
 
