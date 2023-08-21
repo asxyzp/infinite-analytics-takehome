@@ -117,21 +117,6 @@ const InvoiceForm = (props) => {
             required
           />
           <Input
-            type="text"
-            defaultValue={
-              props.invoice
-                ? props.invoice.paymentTerms
-                : defaultInvoice.paymentTerms
-            }
-            label="Terms of payment"
-            size="small"
-            margin="medium"
-            multiline={true}
-            minRows={4}
-            fullWidth
-            required
-          />
-          <Input
             label="Due date"
             type="datetime-local"
             defaultValue={formatDatetime(
@@ -140,6 +125,18 @@ const InvoiceForm = (props) => {
             validation={{ required: true }}
             size="small"
             margin="medium"
+            fullWidth
+            required
+          />
+          <Input
+            type="text"
+            defaultValue={props.invoice?.paymentTerms}
+            placeholder={defaultInvoice.paymentTerms}
+            label="Terms of payment"
+            size="small"
+            margin="medium"
+            multiline={true}
+            minRows={4}
             fullWidth
             required
           />
