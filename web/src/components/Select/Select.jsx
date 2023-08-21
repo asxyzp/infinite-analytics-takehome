@@ -51,7 +51,7 @@ const CustomInputLabel = styled(InputLabel)(() => ({
 const CustomSelect = styled(MuiSelect)(({ theme }) => ({
   // ROOT STYLES
   '&.MuiOutlinedInput-root': {
-    borderRadius: '12px',
+    borderRadius: '10px',
   },
   '&.MuiOutlinedInput-root:hover': {
     boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
