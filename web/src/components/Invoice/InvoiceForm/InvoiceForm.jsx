@@ -64,14 +64,14 @@ const InvoiceForm = (props) => {
   }
   const defaultSeller = {
     name: 'Rajesh Kumar',
-    email: '+91 9876543210',
-    phone: 'rajesh.kumar@example.com',
+    phone: '+91 9876543210',
+    email: 'rajesh.kumar@example.com',
     address: '45 Patel Nagar, New Delhi, India',
   }
   const defaultBuyer = {
     name: 'Priya Sharma',
-    email: '+91 8765432109',
-    phone: 'priya.sharma@example.com',
+    phone: '+91 8765432109',
+    email: 'priya.sharma@example.com',
     address: '22 Gandhi Road, Mumbai, India',
   }
 
