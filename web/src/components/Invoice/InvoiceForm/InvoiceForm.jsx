@@ -1,14 +1,16 @@
+import { Box, styled } from '@mui/material'
+
 import {
   Form,
   FormError,
   FieldError,
   Label,
-  RadioField,
   DatetimeLocalField,
-  TextField,
-  TextAreaField,
-  Submit,
 } from '@redwoodjs/forms'
+
+import Button from 'src/components/Button/Button'
+import Fieldset from 'src/components/Fieldset/Fieldset'
+import Input from 'src/components/Input/Input'
 
 const formatDatetime = (value) => {
   if (value) {
@@ -16,287 +18,146 @@ const formatDatetime = (value) => {
   }
 }
 
+const CustomBox = styled(Box)(({ theme }) => ({
+  '&.MuiBox-root > form': {
+    width: '35%',
+    padding: '20px',
+    borderRight: `1px solid ${theme.palette.divider}`,
+  },
+}))
+
 const InvoiceForm = (props) => {
   const onSubmit = (data) => {
     props.onSave(data, props?.invoice?.id)
   }
 
   return (
-    <div className="rw-form-wrapper">
+    <CustomBox>
       <Form onSubmit={onSubmit} error={props.error}>
-        <FormError
-          error={props.error}
-          wrapperClassName="rw-form-error-wrapper"
-          titleClassName="rw-form-error-title"
-          listClassName="rw-form-error-list"
-        />
+        <Fieldset legend="Basic invoice details">
+          <Input
+            defaultValue={props.invoice?.title}
+            label="Invoice title"
+            size="small"
+            margin="medium"
+            fullWidth
+            required
+          />
+          <Input
+            defaultValue={props.invoice?.description}
+            label="Invoice description"
+            size="small"
+            margin="medium"
+            multiline={true}
+            minRows={4}
+            fullWidth
+            required
+          />
+          <Input
+            defaultValue={props.invoice?.paymentTerms}
+            validation={{ required: true }}
+            label="Terms of payment"
+            size="small"
+            margin="medium"
+            fullWidth
+            required
+          />
+          <Input
+            label="Due date"
+            type="datetime-local"
+            defaultValue={formatDatetime(props.invoice?.dueAt)}
+            validation={{ required: true }}
+            size="small"
+            margin="medium"
+            fullWidth
+            required
+          />
+        </Fieldset>
 
-        <Label
-          name="status"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Status
-        </Label>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="invoice-status-0"
-            name="status"
-            defaultValue="OUTSTANDING"
-            defaultChecked={props.invoice?.status?.includes('OUTSTANDING')}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
+        <Fieldset legend="Seller's information">
+          <Input
+            label="Seller's name"
+            defaultValue={props.invoice?.sellerName}
+            size="small"
+            margin="medium"
+            fullWidth
+            required
           />
 
-          <div>Outstanding</div>
-        </div>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="invoice-status-1"
-            name="status"
-            defaultValue="PAID"
-            defaultChecked={props.invoice?.status?.includes('PAID')}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
+          <Input
+            defaultValue={props.invoice?.sellerAddress}
+            label="Seller's address"
+            multiline={true}
+            minRows={4}
+            size="small"
+            margin="medium"
+            fullWidth
           />
 
-          <div>Paid</div>
-        </div>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="invoice-status-2"
-            name="status"
-            defaultValue="LATE"
-            defaultChecked={props.invoice?.status?.includes('LATE')}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
+          <Input
+            defaultValue={props.invoice?.sellerPhone}
+            label="Seller's phone number"
+            size="small"
+            margin="medium"
+            fullWidth
           />
 
-          <div>Late</div>
-        </div>
+          <Input
+            type="email"
+            label="Seller's email address"
+            defaultValue={props.invoice?.sellerEmail}
+            size="small"
+            margin="medium"
+            fullWidth
+          />
+        </Fieldset>
 
-        <FieldError name="status" className="rw-field-error" />
+        <Fieldset legend="Buyer's information">
+          <Input
+            label="Buyer's name"
+            defaultValue={props.invoice?.buyerName}
+            validation={{ required: true }}
+            size="small"
+            margin="medium"
+            fullWidth
+            required
+          />
+          <Input
+            defaultValue={props.invoice?.buyerAddress}
+            label="Buyer's address"
+            size="small"
+            margin="medium"
+            multiline={true}
+            minRows={4}
+            fullWidth
+          />
+          <Input
+            defaultValue={props.invoice?.buyerPhone}
+            label="Buyer's phone number"
+            size="small"
+            margin="medium"
+            fullWidth
+          />
+          <Input
+            type="email"
+            defaultValue={props.invoice?.buyerEmail}
+            size="small"
+            margin="medium"
+            label="Buyer's email address"
+            fullWidth
+          />
+        </Fieldset>
 
-        <Label
-          name="issueAt"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
+        <Button
+          disabled={props.loading}
+          variant="contained"
+          size="small"
+          fullWidth
         >
-          Issue at
-        </Label>
-
-        <DatetimeLocalField
-          name="issueAt"
-          defaultValue={formatDatetime(props.invoice?.issueAt)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="issueAt" className="rw-field-error" />
-
-        <Label
-          name="dueAt"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Due at
-        </Label>
-
-        <DatetimeLocalField
-          name="dueAt"
-          defaultValue={formatDatetime(props.invoice?.dueAt)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="dueAt" className="rw-field-error" />
-
-        <Label
-          name="sellerName"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Seller name
-        </Label>
-
-        <TextField
-          name="sellerName"
-          defaultValue={props.invoice?.sellerName}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="sellerName" className="rw-field-error" />
-
-        <Label
-          name="sellerAddress"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Seller address
-        </Label>
-
-        <TextField
-          name="sellerAddress"
-          defaultValue={props.invoice?.sellerAddress}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="sellerAddress" className="rw-field-error" />
-
-        <Label
-          name="sellerPhone"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Seller phone
-        </Label>
-
-        <TextField
-          name="sellerPhone"
-          defaultValue={props.invoice?.sellerPhone}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="sellerPhone" className="rw-field-error" />
-
-        <Label
-          name="sellerEmail"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Seller email
-        </Label>
-
-        <TextField
-          name="sellerEmail"
-          defaultValue={props.invoice?.sellerEmail}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="sellerEmail" className="rw-field-error" />
-
-        <Label
-          name="buyerName"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Buyer name
-        </Label>
-
-        <TextField
-          name="buyerName"
-          defaultValue={props.invoice?.buyerName}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="buyerName" className="rw-field-error" />
-
-        <Label
-          name="buyerAddress"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Buyer address
-        </Label>
-
-        <TextField
-          name="buyerAddress"
-          defaultValue={props.invoice?.buyerAddress}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="buyerAddress" className="rw-field-error" />
-
-        <Label
-          name="buyerPhone"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Buyer phone
-        </Label>
-
-        <TextField
-          name="buyerPhone"
-          defaultValue={props.invoice?.buyerPhone}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="buyerPhone" className="rw-field-error" />
-
-        <Label
-          name="buyerEmail"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Buyer email
-        </Label>
-
-        <TextField
-          name="buyerEmail"
-          defaultValue={props.invoice?.buyerEmail}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="buyerEmail" className="rw-field-error" />
-
-        <Label
-          name="lineItems"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Line items
-        </Label>
-
-        <TextAreaField
-          name="lineItems"
-          defaultValue={JSON.stringify(props.invoice?.lineItems)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ valueAsJSON: true, required: true }}
-        />
-
-        <FieldError name="lineItems" className="rw-field-error" />
-
-        <Label
-          name="paymentTerms"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Payment terms
-        </Label>
-
-        <TextField
-          name="paymentTerms"
-          defaultValue={props.invoice?.paymentTerms}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="paymentTerms" className="rw-field-error" />
-
-        <div className="rw-button-group">
-          <Submit disabled={props.loading} className="rw-button rw-button-blue">
-            Save
-          </Submit>
-        </div>
+          Submit
+        </Button>
       </Form>
-    </div>
+    </CustomBox>
   )
 }
 
