@@ -4,8 +4,11 @@ export const schema = gql`
     createdAt: DateTime!
     updateAt: DateTime!
     status: InvoiceStatus!
+    title: String!
+    description: String!
     issueAt: DateTime!
     dueAt: DateTime!
+    sellerLogo: String
     sellerName: String!
     sellerAddress: String
     sellerPhone: String
@@ -32,8 +35,11 @@ export const schema = gql`
   input CreateInvoiceInput {
     updateAt: DateTime!
     status: InvoiceStatus!
+    title: String!
+    description: String!
     issueAt: DateTime!
     dueAt: DateTime!
+    sellerLogo: String
     sellerName: String!
     sellerAddress: String
     sellerPhone: String
@@ -49,8 +55,11 @@ export const schema = gql`
   input UpdateInvoiceInput {
     updateAt: DateTime
     status: InvoiceStatus
+    title: String
+    description: String
     issueAt: DateTime
     dueAt: DateTime
+    sellerLogo: String
     sellerName: String
     sellerAddress: String
     sellerPhone: String

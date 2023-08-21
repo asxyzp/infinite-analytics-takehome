@@ -28,10 +28,11 @@ describe('invoices', () => {
   scenario('creates a invoice', async () => {
     const result = await createInvoice({
       input: {
-        updateAt: '2023-08-21T11:56:51.354Z',
+        updateAt: '2023-08-21T16:31:23.604Z',
         status: 'OUTSTANDING',
-        issueAt: '2023-08-21T11:56:51.354Z',
-        dueAt: '2023-08-21T11:56:51.354Z',
+        title: 'String',
+        description: 'String',
+        dueAt: '2023-08-21T16:31:23.604Z',
         sellerName: 'String',
         buyerName: 'String',
         lineItems: { foo: 'bar' },
@@ -39,10 +40,11 @@ describe('invoices', () => {
       },
     })
 
-    expect(result.updateAt).toEqual(new Date('2023-08-21T11:56:51.354Z'))
+    expect(result.updateAt).toEqual(new Date('2023-08-21T16:31:23.604Z'))
     expect(result.status).toEqual('OUTSTANDING')
-    expect(result.issueAt).toEqual(new Date('2023-08-21T11:56:51.354Z'))
-    expect(result.dueAt).toEqual(new Date('2023-08-21T11:56:51.354Z'))
+    expect(result.title).toEqual('String')
+    expect(result.description).toEqual('String')
+    expect(result.dueAt).toEqual(new Date('2023-08-21T16:31:23.604Z'))
     expect(result.sellerName).toEqual('String')
     expect(result.buyerName).toEqual('String')
     expect(result.lineItems).toEqual({ foo: 'bar' })
@@ -53,10 +55,10 @@ describe('invoices', () => {
     const original = await invoice({ id: scenario.invoice.one.id })
     const result = await updateInvoice({
       id: original.id,
-      input: { updateAt: '2023-08-22T11:56:51.355Z' },
+      input: { updateAt: '2023-08-22T16:31:23.604Z' },
     })
 
-    expect(result.updateAt).toEqual(new Date('2023-08-22T11:56:51.355Z'))
+    expect(result.updateAt).toEqual(new Date('2023-08-22T16:31:23.604Z'))
   })
 
   scenario('deletes a invoice', async (scenario) => {

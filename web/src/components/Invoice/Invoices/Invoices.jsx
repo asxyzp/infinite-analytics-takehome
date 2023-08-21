@@ -43,8 +43,11 @@ const InvoicesList = ({ invoices }) => {
             <th>Created at</th>
             <th>Update at</th>
             <th>Status</th>
+            <th>Title</th>
+            <th>Description</th>
             <th>Issue at</th>
             <th>Due at</th>
+            <th>Seller logo</th>
             <th>Seller name</th>
             <th>Seller address</th>
             <th>Seller phone</th>
@@ -65,8 +68,11 @@ const InvoicesList = ({ invoices }) => {
               <td>{timeTag(invoice.createdAt)}</td>
               <td>{timeTag(invoice.updateAt)}</td>
               <td>{formatEnum(invoice.status)}</td>
+              <td>{truncate(invoice.title)}</td>
+              <td>{truncate(invoice.description)}</td>
               <td>{timeTag(invoice.issueAt)}</td>
               <td>{timeTag(invoice.dueAt)}</td>
+              <td>{truncate(invoice.sellerLogo)}</td>
               <td>{truncate(invoice.sellerName)}</td>
               <td>{truncate(invoice.sellerAddress)}</td>
               <td>{truncate(invoice.sellerPhone)}</td>

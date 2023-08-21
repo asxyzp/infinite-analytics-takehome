@@ -56,12 +56,24 @@ const Invoice = ({ invoice }) => {
               <td>{formatEnum(invoice.status)}</td>
             </tr>
             <tr>
+              <th>Title</th>
+              <td>{invoice.title}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{invoice.description}</td>
+            </tr>
+            <tr>
               <th>Issue at</th>
               <td>{timeTag(invoice.issueAt)}</td>
             </tr>
             <tr>
               <th>Due at</th>
               <td>{timeTag(invoice.dueAt)}</td>
+            </tr>
+            <tr>
+              <th>Seller logo</th>
+              <td>{invoice.sellerLogo}</td>
             </tr>
             <tr>
               <th>Seller name</th>

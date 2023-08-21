@@ -9,8 +9,11 @@ export const QUERY = gql`
       createdAt
       updateAt
       status
+      title
+      description
       issueAt
       dueAt
+      sellerLogo
       sellerName
       sellerAddress
       sellerPhone

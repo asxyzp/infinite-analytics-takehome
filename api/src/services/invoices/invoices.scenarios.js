@@ -2,10 +2,11 @@ export const standard = defineScenario({
   invoice: {
     one: {
       data: {
-        updateAt: '2023-08-21T11:56:51.366Z',
+        updateAt: '2023-08-21T16:31:23.616Z',
         status: 'OUTSTANDING',
-        issueAt: '2023-08-21T11:56:51.366Z',
-        dueAt: '2023-08-21T11:56:51.366Z',
+        title: 'String',
+        description: 'String',
+        dueAt: '2023-08-21T16:31:23.616Z',
         sellerName: 'String',
         buyerName: 'String',
         lineItems: { foo: 'bar' },
@@ -14,10 +15,11 @@ export const standard = defineScenario({
     },
     two: {
       data: {
-        updateAt: '2023-08-21T11:56:51.366Z',
+        updateAt: '2023-08-21T16:31:23.616Z',
         status: 'OUTSTANDING',
-        issueAt: '2023-08-21T11:56:51.366Z',
-        dueAt: '2023-08-21T11:56:51.366Z',
+        title: 'String',
+        description: 'String',
+        dueAt: '2023-08-21T16:31:23.616Z',
         sellerName: 'String',
         buyerName: 'String',
         lineItems: { foo: 'bar' },
