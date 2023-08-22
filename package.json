@@ -6,6 +6,9 @@
       "web"
     ]
   },
+  "dependencies": {
+    "yarn": "^3.6.1"
+  },
   "devDependencies": {
     "@redwoodjs/core": "6.1.0"
   },
