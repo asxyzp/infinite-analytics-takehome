@@ -1,10 +1,38 @@
-import { Link, routes } from '@redwoodjs/router'
+import { useState } from 'react'
+
+import {
+  ReportProblemOutlined,
+  CheckCircleOutlined,
+  MoreHoriz,
+  FilePresent,
+  Receipt,
+  Visibility,
+  Edit,
+  Delete,
+} from '@mui/icons-material'
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  styled,
+} from '@mui/material'
+
+import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
+import IconButton from 'src/components/IconButton/IconButton'
 import { QUERY } from 'src/components/Invoice/InvoicesCell'
-import { formatEnum, jsonTruncate, timeTag, truncate } from 'src/lib/formatters'
+import Menu from 'src/components/Menu/Menu'
+import Tab from 'src/components/Tab/Tab'
+import Tabs from 'src/components/Tabs/Tabs'
 
+// MUTATIONS & QUERIES
 const DELETE_INVOICE_MUTATION = gql`
   mutation DeleteInvoiceMutation($id: Int!) {
     deleteInvoice(id: $id) {
@@ -13,107 +41,212 @@ const DELETE_INVOICE_MUTATION = gql`
   }
 `
 
+// CUSTOM COMPONENTS
+// CUSTOM LIST CONTAINER
+const CustomListContainer = styled(Box)(() => ({
+  padding: '5px 20px 0px',
+  '& .invoices-list-title': {
+    fontWeight: 'bolder',
+  },
+  '& .invoices-divider': {
+    marginBottom: '5px',
+  },
+}))
+
+// CUSTOM LIST ITEM COMPONENT
+const CustomList = styled(List)(() => ({
+  padding: '0px',
+}))
+
+// CUSTOM LIST ITEM COMPONENT
+const CustomListItem = styled(ListItem)(() => ({
+  padding: '0px',
+}))
+
+// CUSTOM LIST ITEM BUTTON COMPONENT
+const CustomListItemButton = styled(ListItemButton)(() => ({
+  padding: '0px',
+}))
+
+// CUSTOM LIST AVATAR COMPONENT
+const CustomListItemAvatar = styled(ListItemAvatar)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '5px',
+  marginRight: '10px',
+  height: '55px',
+  width: '55px',
+  background: `linear-gradient(to top, ${theme.palette.primary.dark}, ${theme.palette.primary.main}, ${theme.palette.primary.main})`,
+}))
+
 const InvoicesList = ({ invoices }) => {
+  // SETTING LOCAL STATES
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null)
+  const open = Boolean(menuAnchorEl)
+
+  // MUTATION METHODS
+  // DELETING THE INVOICE
   const [deleteInvoice] = useMutation(DELETE_INVOICE_MUTATION, {
-    onCompleted: () => {
-      toast.success('Invoice deleted')
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    },
-    // This refetches the query on the list page. Read more about other ways to
-    // update the cache over here:
-    // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
+    onCompleted: () => toast.success('Invoice deleted'),
+    onError: (error) => toast.error(error.message),
     refetchQueries: [{ query: QUERY }],
     awaitRefetchQueries: true,
   })
 
-  const onDeleteClick = (id) => {
+  // METHODS
+  /**
+   * @name setInvoiceDelete
+   * @description METHOD TO DELETE INVOICE
+   * @param {*} id INVOICE ID
+   * @returns {undefined} undefined
+   */
+  const setInvoiceDelete = (id) => {
     if (confirm('Are you sure you want to delete invoice ' + id + '?')) {
       deleteInvoice({ variables: { id } })
     }
   }
 
+  /**
+   * @name openMenu
+   * @description METHOD TO OPEN MENU
+   * @param {*} event EVENT OBJECT
+   * @returns {undefined} undefined
+   */
+  const openMenu = (event) => setMenuAnchorEl(event.currentTarget)
+
+  /**
+   * @name closeMenu
+   * @description METHOD TO CLOSE MENU
+   * @returns {undefined} undefined
+   */
+  const closeMenu = () => setMenuAnchorEl(null)
+
+  // SETTING LOCAL VARIABLES
+  const menuItems = [
+    {
+      label: 'View',
+      icon: <Visibility />,
+    },
+    {
+      label: 'Edit',
+      icon: <Edit />,
+    },
+    {
+      label: 'Delete',
+      icon: <Delete />,
+    },
+  ]
+
+  const setDueAt = (dueAt) => {
+    return `${new Date(dueAt).getDate()}/${new Date(
+      dueAt
+    ).getMonth()}/${new Date(dueAt).getFullYear()} ${
+      new Date(dueAt).getHours() > 12
+        ? new Date(dueAt).getHours() - 12
+        : new Date(dueAt).getHours()
+    }:${new Date(dueAt).getMinutes()} ${
+      new Date(dueAt).getHours() > 12 ? 'PM' : 'AM'
+    }`
+  }
+
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Created at</th>
-            <th>Update at</th>
-            <th>Status</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Issue at</th>
-            <th>Due at</th>
-            <th>Seller logo</th>
-            <th>Seller name</th>
-            <th>Seller address</th>
-            <th>Seller phone</th>
-            <th>Seller email</th>
-            <th>Buyer name</th>
-            <th>Buyer address</th>
-            <th>Buyer phone</th>
-            <th>Buyer email</th>
-            <th>Line items</th>
-            <th>Payment terms</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {invoices.map((invoice) => (
-            <tr key={invoice.id}>
-              <td>{truncate(invoice.id)}</td>
-              <td>{timeTag(invoice.createdAt)}</td>
-              <td>{timeTag(invoice.updateAt)}</td>
-              <td>{formatEnum(invoice.status)}</td>
-              <td>{truncate(invoice.title)}</td>
-              <td>{truncate(invoice.description)}</td>
-              <td>{timeTag(invoice.issueAt)}</td>
-              <td>{timeTag(invoice.dueAt)}</td>
-              <td>{truncate(invoice.sellerLogo)}</td>
-              <td>{truncate(invoice.sellerName)}</td>
-              <td>{truncate(invoice.sellerAddress)}</td>
-              <td>{truncate(invoice.sellerPhone)}</td>
-              <td>{truncate(invoice.sellerEmail)}</td>
-              <td>{truncate(invoice.buyerName)}</td>
-              <td>{truncate(invoice.buyerAddress)}</td>
-              <td>{truncate(invoice.buyerPhone)}</td>
-              <td>{truncate(invoice.buyerEmail)}</td>
-              <td>{jsonTruncate(invoice.lineItems)}</td>
-              <td>{truncate(invoice.paymentTerms)}</td>
-              <td>
-                <nav className="rw-table-actions">
-                  <Link
-                    to={routes.invoice({ id: invoice.id })}
-                    title={'Show invoice ' + invoice.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                  <Link
-                    to={routes.editInvoice({ id: invoice.id })}
-                    title={'Edit invoice ' + invoice.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    title={'Delete invoice ' + invoice.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(invoice.id)}
-                  >
-                    Delete
-                  </button>
-                </nav>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Box>
+      <CustomListContainer>
+        <Typography variant="h5" className="invoices-list-title">
+          Invoices
+        </Typography>
+        <Typography variant="body2" className="invoices-list-description">
+          Get outstanding, paid & late invoices
+        </Typography>
+      </CustomListContainer>
+
+      <Tabs
+        value={0}
+        // onChange={setTab}
+      >
+        <Tab
+          label="Outstanding"
+          icon={<FilePresent fontSize="small" />}
+          iconPosition="start"
+          value={0}
+        />
+        <Tab
+          label="Paid"
+          icon={<CheckCircleOutlined fontSize="small" />}
+          iconPosition="start"
+          value={1}
+        />
+        <Tab
+          label="Late"
+          icon={<ReportProblemOutlined fontSize="small" />}
+          iconPosition="start"
+          value={2}
+        />
+      </Tabs>
+      <Divider className="invoices-divider" />
+      <CustomListContainer>
+        <CustomList sx={{ width: '100%' }}>
+          {invoices.map((invoice, index) => {
+            return (
+              <CustomListItem
+                disablePadding
+                key={index}
+                secondaryAction={
+                  <>
+                    <IconButton edge="end" onClick={openMenu}>
+                      <MoreHoriz />
+                    </IconButton>
+                    <Menu
+                      open={open}
+                      anchorEl={menuAnchorEl}
+                      onClose={closeMenu}
+                      menuItems={menuItems.map((menuItem) => {
+                        if (menuItem.label === 'View')
+                          return {
+                            ...menuItem,
+                            onClick: () =>
+                              navigate(routes.invoice({ id: invoice.id })),
+                          }
+                        else if (menuItem.label === 'Edit')
+                          return {
+                            ...menuItem,
+                            onClick: () =>
+                              navigate(routes.editInvoice({ id: invoice.id })),
+                          }
+                        else if (menuItem.label === 'Delete')
+                          return {
+                            ...menuItem,
+                            onClick: () => setInvoiceDelete(invoice.id),
+                          }
+                      })}
+                      className="user-menu"
+                    />
+                  </>
+                }
+              >
+                <CustomListItemButton>
+                  <CustomListItemAvatar>
+                    <Receipt />
+                  </CustomListItemAvatar>
+                  <ListItemText>
+                    <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
+                      {invoice.title}
+                    </Typography>
+                    <Typography variant="body2">
+                      {invoice.description}
+                    </Typography>
+                    <Typography variant="body2">
+                      Due by {setDueAt(invoice.dueAt)}
+                    </Typography>
+                  </ListItemText>
+                </CustomListItemButton>
+              </CustomListItem>
+            )
+          })}
+        </CustomList>
+      </CustomListContainer>
+    </Box>
   )
 }
 
