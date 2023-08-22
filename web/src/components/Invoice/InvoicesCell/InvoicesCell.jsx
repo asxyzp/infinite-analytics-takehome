@@ -1,6 +1,12 @@
+import { Box, Typography } from '@mui/material'
+
 import { Link, routes } from '@redwoodjs/router'
 
+import ErrorInvoicesImg from 'src/assets/error_invoices.svg'
+import NoInvoicesImg from 'src/assets/no_invoices.svg'
+import Button from 'src/components/Button/Button'
 import Invoices from 'src/components/Invoice/Invoices'
+import Loader, { FillPageContainer } from 'src/components/Loader/Loader'
 
 export const QUERY = gql`
   query FindInvoices {
@@ -14,22 +20,53 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <Loader label="Loading invoices" />
 
 export const Empty = () => {
   return (
-    <div className="rw-text-center">
-      {'No invoices yet. '}
-      <Link to={routes.newInvoice()} className="rw-link">
-        {'Create one?'}
-      </Link>
-    </div>
+    <FillPageContainer sx={{ textAlign: 'center' }}>
+      <Box sx={{ p: '20px' }}>
+        <img
+          src={NoInvoicesImg}
+          alt="No invoices"
+          style={{ minWidth: '275px', marginBottom: '5px' }}
+        />
+        <Typography variant="h5" sx={{ fontWeight: 'bolder', mb: '5px' }}>
+          No invoices found
+        </Typography>
+        <Button color="primary" variant="contained" size="small">
+          Create a new invoice
+        </Button>
+      </Box>
+    </FillPageContainer>
   )
 }
 
-export const Failure = ({ error }) => (
-  <div className="rw-cell-error">{error?.message}</div>
-)
+export const Failure = () => {
+  return (
+    <FillPageContainer sx={{ textAlign: 'center' }}>
+      <Box sx={{ p: '20px' }}>
+        <img
+          src={ErrorInvoicesImg}
+          alt="No invoices"
+          style={{ width: '275px', marginBottom: '5px' }}
+        />
+        <Typography variant="h5" sx={{ fontWeight: 'bolder', mb: '5px' }}>
+          Something went wrong
+        </Typography>
+        <Button
+          color="primary"
+          variant="contained"
+          size="small"
+          component={Link}
+          to={routes.invoices()}
+        >
+          Go back
+        </Button>
+      </Box>
+    </FillPageContainer>
+  )
+}
 
 export const Success = ({ invoices }) => {
   return <Invoices invoices={invoices} />
