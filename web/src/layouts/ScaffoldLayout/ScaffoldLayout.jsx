@@ -5,7 +5,9 @@ import Header from 'src/components/Header/Header'
 // CUSTOM COMPONENTS
 // CUSTOM BOX COMPONENT
 const CustomBox = styled(Box)(() => ({
-  '&.MuiBox-root': {},
+  '&.MuiBox-root': {
+    minHeight: 'calc(100% - 64px)',
+  },
 }))
 
 const ScaffoldLayout = ({ children }) => {
