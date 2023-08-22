@@ -8,6 +8,7 @@ import Button from 'src/components/Button/Button'
 import Invoice from 'src/components/Invoice/Invoice'
 import Loader, { FillPageContainer } from 'src/components/Loader/Loader'
 
+// QUERIES AND MUTATIONS
 export const QUERY = gql`
   query FindInvoiceById($id: Int!) {
     invoice: invoice(id: $id) {
@@ -56,7 +57,7 @@ export const Empty = () => {
   )
 }
 
-export const Failure = ({ error }) => {
+export const Failure = () => {
   return (
     <FillPageContainer sx={{ textAlign: 'center' }}>
       <Box sx={{ p: '20px' }}>
