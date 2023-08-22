@@ -8,6 +8,7 @@ import Button from 'src/components/Button/Button'
 import Invoices from 'src/components/Invoice/Invoices'
 import Loader, { FillPageContainer } from 'src/components/Loader/Loader'
 
+// QUERIES AND MUTATIONS
 export const QUERY = gql`
   query FindInvoices {
     invoices {
