@@ -5,8 +5,8 @@ import {
   Select as MuiSelect,
   MenuItem as MuiMenuItem,
   Typography,
-  Chip,
   InputLabel,
+  ListItemIcon,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
@@ -29,15 +29,23 @@ const CustomBox = styled(Box)(() => ({
 const CustomMenuItem = styled(MuiMenuItem)(() => ({
   // ROOT STYLES
   '&.MuiMenuItem-root': {
-    borderRadius: '9999px',
+    borderRadius: '10px',
     margin: '5px',
+    padding: '5px',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'stretch',
   },
   '& .MuiMenuItem-label': {
     flexGrow: '1',
   },
+}))
+
+const CustomListItemIcon = styled(ListItemIcon)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginRight: '10px',
 }))
 
 // CUSTOM BOX COMPONENT
@@ -162,7 +170,7 @@ const Select = ({
               padding: '0px',
             },
             '& .MuiMenu-paper': {
-              borderRadius: '25px',
+              borderRadius: '15px',
               marginTop: '10px',
               padding: '0px',
             },
@@ -180,15 +188,10 @@ const Select = ({
                 value={selectItem.value}
                 disabled={selectItem.disabled}
               >
+                {selectItem.icon && (
+                  <CustomListItemIcon>{selectItem.icon}</CustomListItemIcon>
+                )}
                 <Box className="MuiMenuItem-label">{selectItem.label}</Box>
-                <Chip
-                  size="small"
-                  label={selectItem.chipLabel}
-                  sx={{
-                    color: `${selectItem.chipColor}.main`,
-                    bgcolor: `${selectItem.chipColor}.100`,
-                  }}
-                />
               </CustomMenuItem>
             )
           })}
