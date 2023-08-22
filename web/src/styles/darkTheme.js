@@ -98,6 +98,8 @@ const DarkTheme = createTheme({
     fontFamily: "'Open Sans', sans-serif",
     logo: {
       fontFamily: "'Space Grotesk', sans-serif",
+      fontWeight: '900',
+      fontSize: '1.4rem',
     },
     h1: {
       fontFamily: 'Raleway',
@@ -117,11 +119,14 @@ const DarkTheme = createTheme({
     h6: {
       fontFamily: 'Raleway',
     },
+    body1: {
+      fontFamily: "'Open Sans', sans-serif",
+      fontSize: 16,
+    },
     body2: {
       fontFamily: "'Open Sans', sans-serif",
       fontSize: 12,
     },
-    fontSize: 16,
   },
 })
 
