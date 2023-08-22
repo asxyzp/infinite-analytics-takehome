@@ -45,7 +45,7 @@ const CustomListItemIcon = styled(ListItemIcon)(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  marginRight: '10px',
+  marginRight: '5px',
 }))
 
 // CUSTOM BOX COMPONENT
@@ -60,6 +60,9 @@ const CustomSelect = styled(MuiSelect)(({ theme }) => ({
   // ROOT STYLES
   '&.MuiOutlinedInput-root': {
     borderRadius: '10px',
+  },
+  '& .MuiSelect-select': {
+    padding: '10px 5px',
   },
   '&.MuiOutlinedInput-root:hover': {
     boxShadow: '0 0 5px rgba(0, 0, 0, 0.5)',
@@ -141,6 +144,7 @@ const CustomFormHelperText = styled(MuiFormHelperText)(() => ({
 const Select = ({
   margin,
   label,
+  placeholder,
   errorText,
   formHelperText,
   selectItems,
@@ -164,6 +168,7 @@ const Select = ({
         {...props}
         notched={false}
         variant="outlined"
+        placeholder={placeholder}
         MenuProps={{
           sx: {
             '& .MuiMenu-list': {
@@ -177,9 +182,6 @@ const Select = ({
           },
         }}
       >
-        <CustomMenuItem key="default" value="default">
-          {props.placeholder}
-        </CustomMenuItem>
         {selectItems &&
           selectItems.map((selectItem) => {
             return (
