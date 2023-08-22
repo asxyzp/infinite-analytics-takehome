@@ -81,6 +81,24 @@ const CustomListItemAvatar = styled(ListItemAvatar)(({ theme }) => ({
   background: `linear-gradient(to top, ${theme.palette.primary.dark}, ${theme.palette.primary.main}, ${theme.palette.primary.main})`,
 }))
 
+/**
+ * @name formatDueAt
+ * @description RETURNS FORMATTED DUE AT VALUE
+ * @param {*} dueAt DUE AT DATETIME VALUE
+ * @returns {String} FORMATTED DATETIME VALUE
+ */
+export const formatDueAt = (dueAt) => {
+  return `${new Date(dueAt).getDate()}/${new Date(dueAt).getMonth()}/${new Date(
+    dueAt
+  ).getFullYear()} ${
+    new Date(dueAt).getHours() > 12
+      ? new Date(dueAt).getHours() - 12
+      : new Date(dueAt).getHours()
+  }:${new Date(dueAt).getMinutes()} ${
+    new Date(dueAt).getHours() > 12 ? 'PM' : 'AM'
+  }`
+}
+
 const InvoicesList = ({ invoices }) => {
   // SETTING LOCAL STATES
   const [tabValue, setTabValue] = useState(0)
@@ -94,6 +112,20 @@ const InvoicesList = ({ invoices }) => {
     onError: (error) => toast.error(error.message),
     refetchQueries: [{ query: QUERY }],
     awaitRefetchQueries: true,
+  })
+
+  // SETTING LOCAL VARIABLES
+  const outstandingInvoices = invoices.filter((invoice) => {
+    if (invoice.status.toLowerCase() === 'outstanding') return true
+    else return false
+  })
+  const lateInvoices = invoices.filter((invoice) => {
+    if (invoice.status.toLowerCase() === 'late') return true
+    else return false
+  })
+  const paidInvoices = invoices.filter((invoice) => {
+    if (invoice.status.toLowerCase() === 'paid') return true
+    else return false
   })
 
   // METHODS
@@ -152,18 +184,6 @@ const InvoicesList = ({ invoices }) => {
     },
   ]
 
-  const setDueAt = (dueAt) => {
-    return `${new Date(dueAt).getDate()}/${new Date(
-      dueAt
-    ).getMonth()}/${new Date(dueAt).getFullYear()} ${
-      new Date(dueAt).getHours() > 12
-        ? new Date(dueAt).getHours() - 12
-        : new Date(dueAt).getHours()
-    }:${new Date(dueAt).getMinutes()} ${
-      new Date(dueAt).getHours() > 12 ? 'PM' : 'AM'
-    }`
-  }
-
   return (
     <Box>
       <CustomListContainer>
@@ -195,7 +215,7 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={0} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {invoices.map((invoice, index) => {
+            {outstandingInvoices.map((invoice, index) => {
               return (
                 <CustomListItem
                   disablePadding
@@ -247,7 +267,7 @@ const InvoicesList = ({ invoices }) => {
                         {invoice.description}
                       </Typography>
                       <Typography variant="body2">
-                        Due by {setDueAt(invoice.dueAt)}
+                        Due by {formatDueAt(invoice.dueAt)}
                       </Typography>
                     </ListItemText>
                   </CustomListItemButton>
@@ -260,7 +280,7 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={1} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {invoices.map((invoice, index) => {
+            {lateInvoices.map((invoice, index) => {
               return (
                 <CustomListItem
                   disablePadding
@@ -312,7 +332,7 @@ const InvoicesList = ({ invoices }) => {
                         {invoice.description}
                       </Typography>
                       <Typography variant="body2">
-                        Due by {setDueAt(invoice.dueAt)}
+                        Due by {formatDueAt(invoice.dueAt)}
                       </Typography>
                     </ListItemText>
                   </CustomListItemButton>
@@ -325,7 +345,7 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={2} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {invoices.map((invoice, index) => {
+            {paidInvoices.map((invoice, index) => {
               return (
                 <CustomListItem
                   disablePadding
@@ -377,7 +397,7 @@ const InvoicesList = ({ invoices }) => {
                         {invoice.description}
                       </Typography>
                       <Typography variant="body2">
-                        Due by {setDueAt(invoice.dueAt)}
+                        Due by {formatDueAt(invoice.dueAt)}
                       </Typography>
                     </ListItemText>
                   </CustomListItemButton>

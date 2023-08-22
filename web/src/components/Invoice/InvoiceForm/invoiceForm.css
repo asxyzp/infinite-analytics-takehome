@@ -14,11 +14,12 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .invoice-form {
+  .invoice-form-container > .invoice-form {
     width: 100%;
   }
   .invoice-container {
     width: 0%;
+    padding: 0%;
   }
   .invoice-form-buttons {
     position: sticky;
