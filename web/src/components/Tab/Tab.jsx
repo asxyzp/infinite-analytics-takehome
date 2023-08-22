@@ -8,6 +8,7 @@ const CustomTab = styled(MuiTab)(() => ({
   '&.MuiTab-root': {
     textTransform: 'none',
     minHeight: 'unset',
+    padding: '10px 20px',
   },
 
   // SIZE STYLES

@@ -6,24 +6,10 @@ export const QUERY = gql`
   query FindInvoices {
     invoices {
       id
-      createdAt
-      updateAt
       status
       title
       description
-      issueAt
       dueAt
-      sellerLogo
-      sellerName
-      sellerAddress
-      sellerPhone
-      sellerEmail
-      buyerName
-      buyerAddress
-      buyerPhone
-      buyerEmail
-      lineItems
-      paymentTerms
     }
   }
 `
