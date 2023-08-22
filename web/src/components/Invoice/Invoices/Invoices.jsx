@@ -30,6 +30,7 @@ import IconButton from 'src/components/IconButton/IconButton'
 import { QUERY } from 'src/components/Invoice/InvoicesCell'
 import Menu from 'src/components/Menu/Menu'
 import Tab from 'src/components/Tab/Tab'
+import TabPanel from 'src/components/TabPanel/TabPanel'
 import Tabs from 'src/components/Tabs/Tabs'
 
 // MUTATIONS & QUERIES
@@ -82,6 +83,7 @@ const CustomListItemAvatar = styled(ListItemAvatar)(({ theme }) => ({
 
 const InvoicesList = ({ invoices }) => {
   // SETTING LOCAL STATES
+  const [tabValue, setTabValue] = useState(0)
   const [menuAnchorEl, setMenuAnchorEl] = useState(null)
   const open = Boolean(menuAnchorEl)
 
@@ -95,6 +97,18 @@ const InvoicesList = ({ invoices }) => {
   })
 
   // METHODS
+  /**
+   * @name setTab
+   * @description METHOD TO SET TAB VALUE
+   * @param {*} event EVENT OBJECT
+   * @param {*} value VALUE
+   * @returns {undefined} undefined
+   */
+  const setTab = (event, value) => {
+    console.log(value)
+    setTabValue(value)
+  }
+
   /**
    * @name setInvoiceDelete
    * @description METHOD TO DELETE INVOICE
@@ -160,92 +174,219 @@ const InvoicesList = ({ invoices }) => {
           Get outstanding, paid & late invoices
         </Typography>
       </CustomListContainer>
-
-      <Tabs
-        value={0}
-        // onChange={setTab}
-      >
+      <Tabs value={tabValue} onChange={setTab}>
         <Tab
           label="Outstanding"
           icon={<FilePresent fontSize="small" />}
           iconPosition="start"
-          value={0}
         />
         <Tab
           label="Paid"
           icon={<CheckCircleOutlined fontSize="small" />}
           iconPosition="start"
-          value={1}
         />
         <Tab
           label="Late"
           icon={<ReportProblemOutlined fontSize="small" />}
           iconPosition="start"
-          value={2}
         />
       </Tabs>
       <Divider className="invoices-divider" />
-      <CustomListContainer>
-        <CustomList sx={{ width: '100%' }}>
-          {invoices.map((invoice, index) => {
-            return (
-              <CustomListItem
-                disablePadding
-                key={index}
-                secondaryAction={
-                  <>
-                    <IconButton edge="end" onClick={openMenu}>
-                      <MoreHoriz />
-                    </IconButton>
-                    <Menu
-                      open={open}
-                      anchorEl={menuAnchorEl}
-                      onClose={closeMenu}
-                      menuItems={menuItems.map((menuItem) => {
-                        if (menuItem.label === 'View')
-                          return {
-                            ...menuItem,
-                            onClick: () =>
-                              navigate(routes.invoice({ id: invoice.id })),
-                          }
-                        else if (menuItem.label === 'Edit')
-                          return {
-                            ...menuItem,
-                            onClick: () =>
-                              navigate(routes.editInvoice({ id: invoice.id })),
-                          }
-                        else if (menuItem.label === 'Delete')
-                          return {
-                            ...menuItem,
-                            onClick: () => setInvoiceDelete(invoice.id),
-                          }
-                      })}
-                      className="user-menu"
-                    />
-                  </>
-                }
-              >
-                <CustomListItemButton>
-                  <CustomListItemAvatar>
-                    <Receipt />
-                  </CustomListItemAvatar>
-                  <ListItemText>
-                    <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
-                      {invoice.title}
-                    </Typography>
-                    <Typography variant="body2">
-                      {invoice.description}
-                    </Typography>
-                    <Typography variant="body2">
-                      Due by {setDueAt(invoice.dueAt)}
-                    </Typography>
-                  </ListItemText>
-                </CustomListItemButton>
-              </CustomListItem>
-            )
-          })}
-        </CustomList>
-      </CustomListContainer>
+      <TabPanel value={0} index={tabValue}>
+        <CustomListContainer>
+          <CustomList sx={{ width: '100%' }}>
+            {invoices.map((invoice, index) => {
+              return (
+                <CustomListItem
+                  disablePadding
+                  key={index}
+                  secondaryAction={
+                    <>
+                      <IconButton edge="end" onClick={openMenu}>
+                        <MoreHoriz />
+                      </IconButton>
+                      <Menu
+                        open={open}
+                        anchorEl={menuAnchorEl}
+                        onClose={closeMenu}
+                        menuItems={menuItems.map((menuItem) => {
+                          if (menuItem.label === 'View')
+                            return {
+                              ...menuItem,
+                              onClick: () =>
+                                navigate(routes.invoice({ id: invoice.id })),
+                            }
+                          else if (menuItem.label === 'Edit')
+                            return {
+                              ...menuItem,
+                              onClick: () =>
+                                navigate(
+                                  routes.editInvoice({ id: invoice.id })
+                                ),
+                            }
+                          else if (menuItem.label === 'Delete')
+                            return {
+                              ...menuItem,
+                              onClick: () => setInvoiceDelete(invoice.id),
+                            }
+                        })}
+                        className="user-menu"
+                      />
+                    </>
+                  }
+                >
+                  <CustomListItemButton>
+                    <CustomListItemAvatar>
+                      <Receipt />
+                    </CustomListItemAvatar>
+                    <ListItemText>
+                      <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
+                        {invoice.title}
+                      </Typography>
+                      <Typography variant="body2">
+                        {invoice.description}
+                      </Typography>
+                      <Typography variant="body2">
+                        Due by {setDueAt(invoice.dueAt)}
+                      </Typography>
+                    </ListItemText>
+                  </CustomListItemButton>
+                </CustomListItem>
+              )
+            })}
+          </CustomList>
+        </CustomListContainer>
+      </TabPanel>
+      <TabPanel value={1} index={tabValue}>
+        <CustomListContainer>
+          <CustomList sx={{ width: '100%' }}>
+            {invoices.map((invoice, index) => {
+              return (
+                <CustomListItem
+                  disablePadding
+                  key={index}
+                  secondaryAction={
+                    <>
+                      <IconButton edge="end" onClick={openMenu}>
+                        <MoreHoriz />
+                      </IconButton>
+                      <Menu
+                        open={open}
+                        anchorEl={menuAnchorEl}
+                        onClose={closeMenu}
+                        menuItems={menuItems.map((menuItem) => {
+                          if (menuItem.label === 'View')
+                            return {
+                              ...menuItem,
+                              onClick: () =>
+                                navigate(routes.invoice({ id: invoice.id })),
+                            }
+                          else if (menuItem.label === 'Edit')
+                            return {
+                              ...menuItem,
+                              onClick: () =>
+                                navigate(
+                                  routes.editInvoice({ id: invoice.id })
+                                ),
+                            }
+                          else if (menuItem.label === 'Delete')
+                            return {
+                              ...menuItem,
+                              onClick: () => setInvoiceDelete(invoice.id),
+                            }
+                        })}
+                        className="user-menu"
+                      />
+                    </>
+                  }
+                >
+                  <CustomListItemButton>
+                    <CustomListItemAvatar>
+                      <Receipt />
+                    </CustomListItemAvatar>
+                    <ListItemText>
+                      <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
+                        {invoice.title}
+                      </Typography>
+                      <Typography variant="body2">
+                        {invoice.description}
+                      </Typography>
+                      <Typography variant="body2">
+                        Due by {setDueAt(invoice.dueAt)}
+                      </Typography>
+                    </ListItemText>
+                  </CustomListItemButton>
+                </CustomListItem>
+              )
+            })}
+          </CustomList>
+        </CustomListContainer>
+      </TabPanel>
+      <TabPanel value={2} index={tabValue}>
+        <CustomListContainer>
+          <CustomList sx={{ width: '100%' }}>
+            {invoices.map((invoice, index) => {
+              return (
+                <CustomListItem
+                  disablePadding
+                  key={index}
+                  secondaryAction={
+                    <>
+                      <IconButton edge="end" onClick={openMenu}>
+                        <MoreHoriz />
+                      </IconButton>
+                      <Menu
+                        open={open}
+                        anchorEl={menuAnchorEl}
+                        onClose={closeMenu}
+                        menuItems={menuItems.map((menuItem) => {
+                          if (menuItem.label === 'View')
+                            return {
+                              ...menuItem,
+                              onClick: () =>
+                                navigate(routes.invoice({ id: invoice.id })),
+                            }
+                          else if (menuItem.label === 'Edit')
+                            return {
+                              ...menuItem,
+                              onClick: () =>
+                                navigate(
+                                  routes.editInvoice({ id: invoice.id })
+                                ),
+                            }
+                          else if (menuItem.label === 'Delete')
+                            return {
+                              ...menuItem,
+                              onClick: () => setInvoiceDelete(invoice.id),
+                            }
+                        })}
+                        className="user-menu"
+                      />
+                    </>
+                  }
+                >
+                  <CustomListItemButton>
+                    <CustomListItemAvatar>
+                      <Receipt />
+                    </CustomListItemAvatar>
+                    <ListItemText>
+                      <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
+                        {invoice.title}
+                      </Typography>
+                      <Typography variant="body2">
+                        {invoice.description}
+                      </Typography>
+                      <Typography variant="body2">
+                        Due by {setDueAt(invoice.dueAt)}
+                      </Typography>
+                    </ListItemText>
+                  </CustomListItemButton>
+                </CustomListItem>
+              )
+            })}
+          </CustomList>
+        </CustomListContainer>
+      </TabPanel>
     </Box>
   )
 }
