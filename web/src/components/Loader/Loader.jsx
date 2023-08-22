@@ -2,7 +2,7 @@ import { Box, CircularProgress, Typography, styled } from '@mui/material'
 
 // CUSTOM COMPONENTS
 // CUSTOM BOX COMPONENT
-const CustomBox = styled(Box)(() => ({
+export const FillPageContainer = styled(Box)(() => ({
   '&.MuiBox-root': {
     display: 'flex',
     flexDirection: 'column',
@@ -14,10 +14,10 @@ const CustomBox = styled(Box)(() => ({
 
 const Loader = ({ label }) => {
   return (
-    <CustomBox>
+    <FillPageContainer>
       <CircularProgress />
       {label && <Typography sx={{ mt: '5px' }}>{label}</Typography>}
-    </CustomBox>
+    </FillPageContainer>
   )
 }
 
