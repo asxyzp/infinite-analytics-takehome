@@ -118,11 +118,14 @@ const LightTheme = createTheme({
     h6: {
       fontFamily: 'Raleway',
     },
+    body1: {
+      fontFamily: "'Open Sans', sans-serif",
+      fontSize: 16,
+    },
     body2: {
       fontFamily: "'Open Sans', sans-serif",
       fontSize: 12,
     },
-    fontSize: 16,
   },
 })
 

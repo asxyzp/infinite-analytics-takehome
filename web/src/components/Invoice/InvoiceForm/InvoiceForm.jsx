@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import {
   Carpenter,
+  Delete,
   Fastfood,
   FormatPaint,
   Publish,
@@ -9,7 +10,7 @@ import {
   Visibility,
   Work,
 } from '@mui/icons-material'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Chip, Typography, styled } from '@mui/material'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Form } from '@redwoodjs/forms'
@@ -17,6 +18,7 @@ import { Form } from '@redwoodjs/forms'
 import Alert from 'src/components/Alert/Alert'
 import Button from 'src/components/Button/Button'
 import Fieldset from 'src/components/Fieldset/Fieldset'
+import IconButton from 'src/components/IconButton/IconButton'
 import Input from 'src/components/Input/Input'
 import Select from 'src/components/Select/Select'
 
@@ -158,6 +160,21 @@ const InvoiceFormContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     border: `1px solid ${theme.palette.divider}`,
   },
+  '& .invoice-line-items-container': {
+    padding: '5px 10px',
+    borderRadius: '10px',
+    marginTop: '10px',
+  },
+  '& .invoice-line-items-container > .line-item-heading': {
+    fontWeight: 'bolder',
+    color: theme.palette.primary.dark,
+  },
+  '& .line-item': {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: '5px',
+  },
 }))
 
 const InvoiceForm = (props) => {
@@ -172,8 +189,10 @@ const InvoiceForm = (props) => {
     updateAt: new Date().toISOString(),
     dueAt: props.invoice ? props.invoice.dueAt : defaultInvoice.dueAt,
     issueAt: props.invoice ? props.invoice.issueAt : new Date().toISOString(),
-    title: defaultInvoice.title,
-    description: defaultInvoice.description,
+    title: props.invoice ? props.invoice.title : defaultInvoice.title,
+    description: props.invoice
+      ? props.invoice.description
+      : defaultInvoice.description,
     paymentTerms: props.invoice ? props.invoice.paymentTerms : '',
     buyerName: props.invoice ? props.invoice.buyerName : '',
     buyerPhone: props.invoice ? props.invoice.buyerPhone : '',
@@ -191,9 +210,7 @@ const InvoiceForm = (props) => {
    * @description METHOD TO SUBMIT
    * @returns {undefined} undefined
    */
-  const onSubmit = (event) => {
-    props.onSave(formState, props?.invoice?.id)
-  }
+  const onSubmit = () => props.onSave(formState, props?.invoice?.id)
 
   /**
    * @name setSelectedField
@@ -398,7 +415,13 @@ const InvoiceForm = (props) => {
     }
   }
 
-  console.log(formState)
+  const deleteLineItem = (id) => {
+    const newLineItems = formState.lineItems.filter((lineItem) => {
+      if (lineItem.id === id) return false
+      else return true
+    })
+    setFormState({ ...formState, lineItems: newLineItems })
+  }
 
   return (
     <InvoiceFormContainer className="invoice-form-container">
@@ -733,6 +756,48 @@ const InvoiceForm = (props) => {
               <Typography variant="body2">
                 Select a value from the above field
               </Typography>
+            </Box>
+          )}
+          {formState.lineItems.length > 0 && (
+            <Box className="invoice-line-items-container">
+              <Typography
+                variant="body1"
+                color="primary"
+                className="line-item-heading"
+              >
+                List of line items
+              </Typography>
+              {formState.lineItems.map((lineItem, index) => {
+                return (
+                  <Box key={index} className="line-item">
+                    <Box>
+                      <Typography variant="body1">
+                        {lineItem.description}
+                      </Typography>
+                      {lineItem.type === 'labor' && (
+                        <Chip
+                          label={lineItem.type}
+                          size="small"
+                          color="primary"
+                        />
+                      )}
+                      {lineItem.type === 'material' && (
+                        <Chip
+                          label={lineItem.type}
+                          size="small"
+                          color="secondary"
+                        />
+                      )}
+                      {lineItem.type === 'work' && (
+                        <Chip label={lineItem.type} size="small" color="info" />
+                      )}
+                    </Box>
+                    <IconButton onClick={() => deleteLineItem(lineItem.id)}>
+                      <Delete />
+                    </IconButton>
+                  </Box>
+                )
+              })}
             </Box>
           )}
         </Fieldset>
