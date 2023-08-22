@@ -81,6 +81,24 @@ const CustomListItemAvatar = styled(ListItemAvatar)(({ theme }) => ({
   background: `linear-gradient(to top, ${theme.palette.primary.dark}, ${theme.palette.primary.main}, ${theme.palette.primary.main})`,
 }))
 
+/**
+ * @name formatDueAt
+ * @description RETURNS FORMATTED DUE AT VALUE
+ * @param {*} dueAt DUE AT DATETIME VALUE
+ * @returns {String} FORMATTED DATETIME VALUE
+ */
+export const formatDueAt = (dueAt) => {
+  return `${new Date(dueAt).getDate()}/${new Date(dueAt).getMonth()}/${new Date(
+    dueAt
+  ).getFullYear()} ${
+    new Date(dueAt).getHours() > 12
+      ? new Date(dueAt).getHours() - 12
+      : new Date(dueAt).getHours()
+  }:${new Date(dueAt).getMinutes()} ${
+    new Date(dueAt).getHours() > 12 ? 'PM' : 'AM'
+  }`
+}
+
 const InvoicesList = ({ invoices }) => {
   // SETTING LOCAL STATES
   const [tabValue, setTabValue] = useState(0)
@@ -151,18 +169,6 @@ const InvoicesList = ({ invoices }) => {
       icon: <Delete />,
     },
   ]
-
-  const setDueAt = (dueAt) => {
-    return `${new Date(dueAt).getDate()}/${new Date(
-      dueAt
-    ).getMonth()}/${new Date(dueAt).getFullYear()} ${
-      new Date(dueAt).getHours() > 12
-        ? new Date(dueAt).getHours() - 12
-        : new Date(dueAt).getHours()
-    }:${new Date(dueAt).getMinutes()} ${
-      new Date(dueAt).getHours() > 12 ? 'PM' : 'AM'
-    }`
-  }
 
   return (
     <Box>
@@ -247,7 +253,7 @@ const InvoicesList = ({ invoices }) => {
                         {invoice.description}
                       </Typography>
                       <Typography variant="body2">
-                        Due by {setDueAt(invoice.dueAt)}
+                        Due by {formatDueAt(invoice.dueAt)}
                       </Typography>
                     </ListItemText>
                   </CustomListItemButton>
@@ -312,7 +318,7 @@ const InvoicesList = ({ invoices }) => {
                         {invoice.description}
                       </Typography>
                       <Typography variant="body2">
-                        Due by {setDueAt(invoice.dueAt)}
+                        Due by {formatDueAt(invoice.dueAt)}
                       </Typography>
                     </ListItemText>
                   </CustomListItemButton>
@@ -377,7 +383,7 @@ const InvoicesList = ({ invoices }) => {
                         {invoice.description}
                       </Typography>
                       <Typography variant="body2">
-                        Due by {setDueAt(invoice.dueAt)}
+                        Due by {formatDueAt(invoice.dueAt)}
                       </Typography>
                     </ListItemText>
                   </CustomListItemButton>
