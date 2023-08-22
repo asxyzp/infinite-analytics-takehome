@@ -35,7 +35,13 @@ export const Empty = () => {
         <Typography variant="h5" sx={{ fontWeight: 'bolder', mb: '5px' }}>
           No invoices found
         </Typography>
-        <Button color="primary" variant="contained" size="small">
+        <Button
+          color="primary"
+          variant="contained"
+          size="small"
+          component={Link}
+          to={routes.newInvoice()}
+        >
           Create a new invoice
         </Button>
       </Box>
