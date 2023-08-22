@@ -117,6 +117,10 @@ const DarkTheme = createTheme({
     h6: {
       fontFamily: 'Raleway',
     },
+    body2: {
+      fontFamily: "'Open Sans', sans-serif",
+      fontSize: 12,
+    },
     fontSize: 16,
   },
 })
