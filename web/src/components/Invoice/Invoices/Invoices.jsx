@@ -114,6 +114,20 @@ const InvoicesList = ({ invoices }) => {
     awaitRefetchQueries: true,
   })
 
+  // SETTING LOCAL VARIABLES
+  const outstandingInvoices = invoices.filter((invoice) => {
+    if (invoice.status.toLowerCase() === 'outstanding') return true
+    else return false
+  })
+  const lateInvoices = invoices.filter((invoice) => {
+    if (invoice.status.toLowerCase() === 'late') return true
+    else return false
+  })
+  const paidInvoices = invoices.filter((invoice) => {
+    if (invoice.status.toLowerCase() === 'paid') return true
+    else return false
+  })
+
   // METHODS
   /**
    * @name setTab
@@ -201,7 +215,7 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={0} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {invoices.map((invoice, index) => {
+            {outstandingInvoices.map((invoice, index) => {
               return (
                 <CustomListItem
                   disablePadding
@@ -266,7 +280,7 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={1} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {invoices.map((invoice, index) => {
+            {lateInvoices.map((invoice, index) => {
               return (
                 <CustomListItem
                   disablePadding
@@ -331,7 +345,7 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={2} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {invoices.map((invoice, index) => {
+            {paidInvoices.map((invoice, index) => {
               return (
                 <CustomListItem
                   disablePadding
