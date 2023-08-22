@@ -189,8 +189,10 @@ const InvoiceForm = (props) => {
     updateAt: new Date().toISOString(),
     dueAt: props.invoice ? props.invoice.dueAt : defaultInvoice.dueAt,
     issueAt: props.invoice ? props.invoice.issueAt : new Date().toISOString(),
-    title: defaultInvoice.title,
-    description: defaultInvoice.description,
+    title: props.invoice ? props.invoice.title : defaultInvoice.title,
+    description: props.invoice
+      ? props.invoice.description
+      : defaultInvoice.description,
     paymentTerms: props.invoice ? props.invoice.paymentTerms : '',
     buyerName: props.invoice ? props.invoice.buyerName : '',
     buyerPhone: props.invoice ? props.invoice.buyerPhone : '',
@@ -208,9 +210,7 @@ const InvoiceForm = (props) => {
    * @description METHOD TO SUBMIT
    * @returns {undefined} undefined
    */
-  const onSubmit = (event) => {
-    props.onSave(formState, props?.invoice?.id)
-  }
+  const onSubmit = () => props.onSave(formState, props?.invoice?.id)
 
   /**
    * @name setSelectedField
@@ -422,8 +422,6 @@ const InvoiceForm = (props) => {
     })
     setFormState({ ...formState, lineItems: newLineItems })
   }
-
-  console.log(formState)
 
   return (
     <InvoiceFormContainer className="invoice-form-container">
