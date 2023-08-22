@@ -1,5 +1,5 @@
 import { DarkMode, LightMode } from '@mui/icons-material'
-import { Box, Divider, Typography, styled } from '@mui/material'
+import { Box, Divider, Typography, styled, useMediaQuery } from '@mui/material'
 import { useRecoilState } from 'recoil'
 
 import { Link, routes } from '@redwoodjs/router'
@@ -19,7 +19,7 @@ const CustomBox = styled(Box)(() => ({
     alignItems: 'center',
   },
   '& .header-app-name': {
-    fontSize: '2em',
+    fontSize: '1.75em',
     fontWeight: 'bolder',
     textDecoration: 'none',
     lineHeight: '1',
@@ -37,6 +37,9 @@ const CustomBox = styled(Box)(() => ({
 const Header = () => {
   // GETTING ATOMIC STATES
   const [isDarkMode, setDarkMode] = useRecoilState(darkModeAtom)
+
+  // SETTING MEDIA QUERY
+  const isSmallDesktop = useMediaQuery('(max-width:1200px)')
 
   // METHODS
   /**
@@ -72,7 +75,7 @@ const Header = () => {
               variant="outlined"
               className="header-create-invoice-link"
             >
-              New invoice
+              {isSmallDesktop ? 'Create' : 'New invoice'}
             </Button>
           </Link>
         </Box>
