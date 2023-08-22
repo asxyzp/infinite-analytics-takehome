@@ -1,0 +1,15 @@
+.invoice-view {
+  width: 70%;
+}
+.invoice-meta-container {
+  max-width: 30%;
+}
+
+@media screen and (max-width: 1200px) {
+  .invoice-view {
+    width: 95%;
+  }
+  .invoice-meta-container {
+    max-width: 45%;
+  }
+}
