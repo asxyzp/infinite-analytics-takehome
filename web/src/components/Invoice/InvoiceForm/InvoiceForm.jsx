@@ -20,9 +20,12 @@ import Button from 'src/components/Button/Button'
 import Fieldset from 'src/components/Fieldset/Fieldset'
 import IconButton from 'src/components/IconButton/IconButton'
 import Input from 'src/components/Input/Input'
+import InvoiceView from 'src/components/InvoiceView/InvoiceView'
 import Select from 'src/components/Select/Select'
 
 import './invoiceForm.css'
+
+import { formatDueAt } from '../Invoices'
 
 // SETTING LOCAL VARIABLES
 // SETTING DEFAULT VALUES
@@ -408,13 +411,17 @@ const InvoiceForm = (props) => {
     ) {
       setLineItemFormError('Please fill the necessary details')
     } else {
-      setLineItemFormState({
-        ...formState,
-        lineItems: formState.lineItems.push(newLineItem),
-      })
+      setLineItemFormState(defaultLineItemFormState)
+      formState.lineItems.push(newLineItem)
     }
   }
 
+  /**
+   * @name deleteLineItem
+   * @description METHOD TO DELETE LINE ITEM
+   * @param {*} id ID
+   * @returns {undefined} undefined
+   */
   const deleteLineItem = (id) => {
     const newLineItems = formState.lineItems.filter((lineItem) => {
       if (lineItem.id === id) return false
@@ -478,7 +485,7 @@ const InvoiceForm = (props) => {
             type="text"
             defaultValue={props.invoice?.paymentTerms}
             placeholder={defaultInvoice.paymentTerms}
-            label="Terms of payment"
+            label="Payment instructions"
             size="small"
             margin="small"
             multiline={true}
@@ -603,6 +610,7 @@ const InvoiceForm = (props) => {
                 margin="small"
                 fullWidth
                 required
+                value={lineItemFormState.description}
                 onChange={setLineItemDescription}
               />
               <Input
@@ -614,6 +622,7 @@ const InvoiceForm = (props) => {
                 margin="small"
                 fullWidth
                 required
+                value={lineItemFormState.rate}
                 onChange={setLineItemRate}
               />
               <Input
@@ -625,6 +634,7 @@ const InvoiceForm = (props) => {
                 margin="medium"
                 fullWidth
                 required
+                value={lineItemFormState.unit}
                 onChange={setLineItemUnit}
               />
               <Button
@@ -655,6 +665,7 @@ const InvoiceForm = (props) => {
                 margin="small"
                 fullWidth
                 required
+                value={lineItemFormState.description}
                 onChange={setLineItemDescription}
               />
               <Input
@@ -666,6 +677,7 @@ const InvoiceForm = (props) => {
                 margin="small"
                 fullWidth
                 required
+                value={lineItemFormState.rate}
                 onChange={setLineItemRate}
               />
               <Input
@@ -677,6 +689,7 @@ const InvoiceForm = (props) => {
                 margin="medium"
                 fullWidth
                 required
+                value={lineItemFormState.unit}
                 onChange={setLineItemUnit}
               />
               <Button
@@ -707,6 +720,7 @@ const InvoiceForm = (props) => {
                 margin="small"
                 fullWidth
                 required
+                value={lineItemFormState.description}
                 onChange={setLineItemDescription}
               />
               <Input
@@ -718,6 +732,7 @@ const InvoiceForm = (props) => {
                 margin="small"
                 fullWidth
                 required
+                value={lineItemFormState.rate}
                 onChange={setLineItemRate}
               />
               <Input
@@ -729,6 +744,7 @@ const InvoiceForm = (props) => {
                 margin="medium"
                 fullWidth
                 required
+                value={lineItemFormState.unit}
                 onChange={setLineItemUnit}
               />
               <Button
@@ -832,7 +848,22 @@ const InvoiceForm = (props) => {
           )}
         </Box>
       </Form>
-      <Box className="invoice-container"></Box>
+      <Box className="invoice-container">
+        <InvoiceView
+          id={props.invoice?.id}
+          dueAt={formatDueAt(formState.dueAt)}
+          sellerName={formState.sellerName}
+          sellerPhone={formState.sellerPhone}
+          sellerEmail={formState.sellerEmail}
+          sellerAddress={formState.sellerAddress}
+          buyerName={formState.buyerName}
+          buyerPhone={formState.buyerPhone}
+          buyerEmail={formState.buyerEmail}
+          buyerAddress={formState.buyerAddress}
+          lineItems={formState.lineItems}
+          paymentTerms={formState.paymentTerms}
+        />
+      </Box>
     </InvoiceFormContainer>
   )
 }
