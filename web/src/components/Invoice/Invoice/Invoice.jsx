@@ -69,40 +69,46 @@ const Invoice = ({ invoice }) => {
   return (
     <InvoiceContainer className="invoice-container">
       <Box className="invoice-form">
+        <Typography variant="h6" className="form-title">
+          View invoice
+        </Typography>
+        <Typography variant="body2" className="form-description">
+          View details of an existing invoice
+        </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
           Title
         </Typography>
-        <Typography variant="body1" sx={{ mb: '10px' }}>
+        <Typography variant="body2" sx={{ mb: '10px' }}>
           {invoice.title}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
           Description
         </Typography>
-        <Typography variant="body1" sx={{ mb: '10px' }}>
+        <Typography variant="body2" sx={{ mb: '10px' }}>
           {invoice.description}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
           Seller Name
         </Typography>
-        <Typography variant="body1" sx={{ mb: '10px' }}>
+        <Typography variant="body2" sx={{ mb: '10px' }}>
           {invoice.sellerName}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
           Buyer Name
         </Typography>
-        <Typography variant="body1" sx={{ mb: '10px' }}>
+        <Typography variant="body2" sx={{ mb: '10px' }}>
           {invoice.buyerName}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
           Issue Date
         </Typography>
-        <Typography variant="body1" sx={{ mb: '10px' }}>
+        <Typography variant="body2" sx={{ mb: '10px' }}>
           {formatDueAt(invoice.issueAt)}
         </Typography>
         <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
           Due Date
         </Typography>
-        <Typography variant="body1" sx={{ mb: '20px' }}>
+        <Typography variant="body2" sx={{ mb: '20px' }}>
           {formatDueAt(invoice.dueAt)}
         </Typography>
         {isSmallDesktop && (
