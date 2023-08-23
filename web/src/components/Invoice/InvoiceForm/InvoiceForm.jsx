@@ -122,17 +122,15 @@ const formatDatetime = (value) => {
 }
 
 // INVOICE CONTAINER COMPONENT
-const InvoiceFormContainer = styled(Box)(({ theme }) => ({
-  '&.invoice-form-container': {
+export const InvoiceContainer = styled(Box)(({ theme }) => ({
+  '&.invoice-container': {
     display: 'flex',
     flexDirection: 'row',
-    height: '100%',
-    overflow: 'hidden',
   },
   '& .invoice-form': {
     padding: '10px 20px',
-    height: '100%',
     overflow: 'hidden',
+    minHeight: 'calc(100vh - 64px)',
     borderRight: `1px solid ${theme.palette.divider}`,
   },
   '& .form-title': {
@@ -446,7 +444,7 @@ const InvoiceForm = (props) => {
   }
 
   return (
-    <InvoiceFormContainer className="invoice-form-container">
+    <InvoiceContainer className="invoice-container">
       <Form className="invoice-form" onSubmit={onSubmit}>
         <Typography variant="h6" className="form-title">
           Generate invoice
@@ -880,7 +878,7 @@ const InvoiceForm = (props) => {
           paymentTerms={formState.paymentTerms}
         />
       </Box>
-    </InvoiceFormContainer>
+    </InvoiceContainer>
   )
 }
 

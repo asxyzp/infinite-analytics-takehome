@@ -14,7 +14,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .invoice-form-container > .invoice-form {
+  .invoice-container > .invoice-form {
     width: 100%;
   }
   .invoice-preview-container {
