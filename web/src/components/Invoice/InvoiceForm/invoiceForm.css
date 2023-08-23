@@ -2,7 +2,7 @@
   width: 30%;
   position: relative;
 }
-.invoice-container {
+.invoice-preview-container {
   width: 70%;
 }
 .invoice-form-buttons {
@@ -17,9 +17,8 @@
   .invoice-form-container > .invoice-form {
     width: 100%;
   }
-  .invoice-container {
-    width: 0%;
-    padding: 0%;
+  .invoice-preview-container {
+    display: none;
   }
   .invoice-form-buttons {
     position: sticky;

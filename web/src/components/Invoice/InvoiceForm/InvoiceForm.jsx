@@ -11,6 +11,7 @@ import {
   Work,
 } from '@mui/icons-material'
 import { Box, Chip, Typography, styled } from '@mui/material'
+import { useRecoilState } from 'recoil'
 import { v4 as uuidv4 } from 'uuid'
 
 import { Form } from '@redwoodjs/forms'
@@ -22,8 +23,8 @@ import IconButton from 'src/components/IconButton/IconButton'
 import Input from 'src/components/Input/Input'
 import InvoiceView from 'src/components/InvoiceView/InvoiceView'
 import Select from 'src/components/Select/Select'
-
 import './invoiceForm.css'
+import { modalTypeAtom, sharedDataAtom } from 'src/contexts/atoms'
 
 import { formatDueAt } from '../Invoices'
 
@@ -120,7 +121,7 @@ const formatDatetime = (value) => {
   }
 }
 
-// INVOICE CONTAINER
+// INVOICE CONTAINER COMPONENT
 const InvoiceFormContainer = styled(Box)(({ theme }) => ({
   '&.invoice-form-container': {
     display: 'flex',
@@ -144,7 +145,7 @@ const InvoiceFormContainer = styled(Box)(({ theme }) => ({
   '& .invoice-form-buttons': {
     background: theme.palette.background.default,
   },
-  '& .invoice-container': {
+  '& .invoice-preview-container': {
     background:
       theme.palette.mode === 'light'
         ? theme.palette.grey['main']
@@ -181,7 +182,11 @@ const InvoiceFormContainer = styled(Box)(({ theme }) => ({
 }))
 
 const InvoiceForm = (props) => {
-  // SETTING LOCAL STATE
+  // GETTING ATOMIC STATES
+  const [modalType, setModalType] = useRecoilState(modalTypeAtom)
+  const [sharedData, setSharedData] = useRecoilState(sharedDataAtom)
+
+  // SETTING LOCAL STATES
   const [lineItemType, setLineItemType] = useState('default')
   const [lineItemFormState, setLineItemFormState] = useState(
     defaultLineItemFormState
@@ -207,6 +212,16 @@ const InvoiceForm = (props) => {
     sellerAddress: props.invoice ? props.invoice.sellerAddress : '',
     lineItems: props.invoice ? props.invoice.lineItems : [],
   })
+
+  /**
+   * @name setInvoiceModal
+   * @description VIEWING INVOICE MODAL
+   * @returns {undefined} undefined
+   */
+  const setInvoiceModal = () => {
+    setSharedData(formState)
+    setModalType('invoice')
+  }
 
   /**
    * @name onSubmit
@@ -827,6 +842,7 @@ const InvoiceForm = (props) => {
             className="invoice-view-button"
             fullWidth
             startIcon={<Visibility />}
+            onClick={setInvoiceModal}
           >
             View
           </Button>
@@ -848,7 +864,7 @@ const InvoiceForm = (props) => {
           )}
         </Box>
       </Form>
-      <Box className="invoice-container">
+      <Box className="invoice-preview-container">
         <InvoiceView
           id={props.invoice?.id}
           dueAt={formatDueAt(formState.dueAt)}
