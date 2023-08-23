@@ -165,6 +165,7 @@ const InvoiceView = ({
                     <TableCell
                       sx={(theme) => {
                         return {
+                          maxWidth: '200px',
                           color: theme.palette.common.black,
                         }
                       }}
@@ -439,8 +440,8 @@ const InvoiceView = ({
                         <TableCell
                           sx={(theme) => {
                             return {
-                              color: theme.palette.common.black,
                               maxWidth: '200px',
+                              color: theme.palette.common.black,
                             }
                           }}
                           component="th"
