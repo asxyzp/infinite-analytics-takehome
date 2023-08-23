@@ -237,21 +237,28 @@ const InvoicesList = ({ invoices }) => {
                             if (menuItem.label === 'View')
                               return {
                                 ...menuItem,
-                                onClick: () =>
-                                  navigate(routes.invoice({ id: invoice.id })),
+                                onClick: () => {
+                                  closeMenu()
+                                  navigate(routes.invoice({ id: invoice.id }))
+                                },
                               }
                             else if (menuItem.label === 'Edit')
                               return {
                                 ...menuItem,
-                                onClick: () =>
+                                onClick: () => {
+                                  closeMenu()
                                   navigate(
                                     routes.editInvoice({ id: invoice.id })
-                                  ),
+                                  )
+                                },
                               }
                             else if (menuItem.label === 'Delete')
                               return {
                                 ...menuItem,
-                                onClick: () => setInvoiceDelete(invoice.id),
+                                onClick: () => {
+                                  closeMenu()
+                                  setInvoiceDelete(invoice.id)
+                                },
                               }
                           })}
                           className="user-menu"

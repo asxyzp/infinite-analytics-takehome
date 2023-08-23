@@ -3,6 +3,7 @@ import { useState } from 'react'
 import {
   Carpenter,
   Delete,
+  Edit,
   Fastfood,
   FormatPaint,
   Publish,
@@ -122,17 +123,15 @@ const formatDatetime = (value) => {
 }
 
 // INVOICE CONTAINER COMPONENT
-const InvoiceFormContainer = styled(Box)(({ theme }) => ({
-  '&.invoice-form-container': {
+export const InvoiceContainer = styled(Box)(({ theme }) => ({
+  '&.invoice-container': {
     display: 'flex',
     flexDirection: 'row',
-    height: '100%',
-    overflow: 'hidden',
   },
   '& .invoice-form': {
     padding: '10px 20px',
-    height: '100%',
     overflow: 'hidden',
+    minHeight: 'calc(100vh - 64px)',
     borderRight: `1px solid ${theme.palette.divider}`,
   },
   '& .form-title': {
@@ -228,7 +227,9 @@ const InvoiceForm = (props) => {
    * @description METHOD TO SUBMIT
    * @returns {undefined} undefined
    */
-  const onSubmit = () => props.onSave(formState, props?.invoice?.id)
+  const onSubmit = () => {
+    props.onSave(formState, props?.invoice?.id)
+  }
 
   /**
    * @name setSelectedField
@@ -446,13 +447,15 @@ const InvoiceForm = (props) => {
   }
 
   return (
-    <InvoiceFormContainer className="invoice-form-container">
+    <InvoiceContainer className="invoice-container">
       <Form className="invoice-form" onSubmit={onSubmit}>
         <Typography variant="h6" className="form-title">
-          Generate invoice
+          {props.invoice ? 'Edit invoice' : 'Generate invoice'}
         </Typography>
         <Typography variant="body2" className="form-description">
-          Add details to create a new invoice
+          {props.invoice
+            ? 'Edit details of an existing invoice'
+            : 'Add details to create a new invoice'}
         </Typography>
 
         <Fieldset legend="Basic invoice details">
@@ -461,6 +464,7 @@ const InvoiceForm = (props) => {
             defaultValue={
               props.invoice ? props.invoice.title : defaultInvoice.title
             }
+            disabled={props.loading}
             label="Invoice title"
             size="small"
             margin="small"
@@ -475,6 +479,7 @@ const InvoiceForm = (props) => {
                 ? props.invoice.description
                 : defaultInvoice.description
             }
+            disabled={props.loading}
             label="Invoice description"
             size="small"
             margin="small"
@@ -490,6 +495,7 @@ const InvoiceForm = (props) => {
             defaultValue={formatDatetime(
               props.invoice ? props.invoice.dueAt : defaultInvoice.dueAt
             )}
+            disabled={props.loading}
             size="small"
             margin="small"
             fullWidth
@@ -500,6 +506,7 @@ const InvoiceForm = (props) => {
             type="text"
             defaultValue={props.invoice?.paymentTerms}
             placeholder={defaultInvoice.paymentTerms}
+            disabled={props.loading}
             label="Payment instructions"
             size="small"
             margin="small"
@@ -515,6 +522,7 @@ const InvoiceForm = (props) => {
           <Input
             type="text"
             label="Seller's name"
+            disabled={props.loading}
             defaultValue={props.invoice?.sellerName}
             placeholder={defaultSeller.name}
             size="small"
@@ -525,6 +533,7 @@ const InvoiceForm = (props) => {
           />
           <Input
             type="tel"
+            disabled={props.loading}
             defaultValue={props.invoice?.sellerPhone}
             placeholder={defaultSeller.phone}
             label="Seller's phone number"
@@ -535,6 +544,7 @@ const InvoiceForm = (props) => {
           />
           <Input
             type="email"
+            disabled={props.loading}
             label="Seller's email address"
             placeholder={defaultSeller.email}
             defaultValue={props.invoice?.sellerEmail}
@@ -545,6 +555,7 @@ const InvoiceForm = (props) => {
           />
           <Input
             type="text"
+            disabled={props.loading}
             placeholder={defaultSeller.address}
             defaultValue={props.invoice?.sellerAddress}
             label="Seller's address"
@@ -560,6 +571,7 @@ const InvoiceForm = (props) => {
         <Fieldset legend="Buyer's information">
           <Input
             type="text"
+            disabled={props.loading}
             label="Buyer's name"
             defaultValue={props.invoice?.buyerName}
             placeholder={defaultBuyer.name}
@@ -571,6 +583,7 @@ const InvoiceForm = (props) => {
           />
           <Input
             type="tel"
+            disabled={props.loading}
             defaultValue={props.invoice?.buyerPhone}
             placeholder={defaultBuyer.phone}
             label="Buyer's phone number"
@@ -581,6 +594,7 @@ const InvoiceForm = (props) => {
           />
           <Input
             type="email"
+            disabled={props.loading}
             defaultValue={props.invoice?.buyerEmail}
             placeholder={defaultBuyer.email}
             size="small"
@@ -591,6 +605,7 @@ const InvoiceForm = (props) => {
           />
           <Input
             type="text"
+            disabled={props.loading}
             defaultValue={props.invoice?.buyerAddress}
             placeholder={defaultBuyer.address}
             label="Buyer's address"
@@ -607,6 +622,7 @@ const InvoiceForm = (props) => {
           <Select
             fullWidth={true}
             margin="small"
+            disabled={props.loading}
             label="Select the type of line item"
             className="select-server"
             defaultValue="default"
@@ -623,6 +639,7 @@ const InvoiceForm = (props) => {
                 placeholder="Describe the work"
                 size="small"
                 margin="small"
+                disabled={props.loading}
                 fullWidth
                 required
                 value={lineItemFormState.description}
@@ -636,6 +653,7 @@ const InvoiceForm = (props) => {
                 size="small"
                 margin="small"
                 fullWidth
+                disabled={props.loading}
                 required
                 value={lineItemFormState.rate}
                 onChange={setLineItemRate}
@@ -646,6 +664,7 @@ const InvoiceForm = (props) => {
                 placeholder="15"
                 min={0}
                 size="small"
+                disabled={props.loading}
                 margin="medium"
                 fullWidth
                 required
@@ -655,6 +674,7 @@ const InvoiceForm = (props) => {
               <Button
                 type="button"
                 variant="outlined"
+                disabled={props.loading}
                 size="small"
                 className="invoice-submit-button"
                 fullWidth
@@ -853,9 +873,9 @@ const InvoiceForm = (props) => {
             size="small"
             className="invoice-submit-button"
             fullWidth
-            startIcon={<Publish />}
+            startIcon={props.invoice ? <Edit /> : <Publish />}
           >
-            Submit
+            {props.invoice ? 'Edit invoice' : 'Create invoice'}
           </Button>
           {props.error && (
             <Box className="invoice-form-alert">
@@ -880,7 +900,7 @@ const InvoiceForm = (props) => {
           paymentTerms={formState.paymentTerms}
         />
       </Box>
-    </InvoiceFormContainer>
+    </InvoiceContainer>
   )
 }
 
