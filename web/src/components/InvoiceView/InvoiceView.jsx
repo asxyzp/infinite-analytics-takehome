@@ -72,6 +72,7 @@ const InvoiceView = ({
   buyerEmail,
   lineItems,
   paymentTerms,
+  ...props
 }) => {
   // SETTING MEDIA QUERY
   const isSmallDesktop = useMediaQuery('(max-width:1200px)')
@@ -91,7 +92,7 @@ const InvoiceView = ({
   })
 
   return (
-    <CustomBox className="invoice-view">
+    <CustomBox className="invoice-view" {...props}>
       <Box className="invoice-header">
         <Box className="invoice-meta-container">
           <Box className="invoice-entity-container">
