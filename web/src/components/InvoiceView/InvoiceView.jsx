@@ -72,6 +72,7 @@ const InvoiceView = ({
   buyerEmail,
   lineItems,
   paymentTerms,
+  ...props
 }) => {
   // SETTING MEDIA QUERY
   const isSmallDesktop = useMediaQuery('(max-width:1200px)')
@@ -91,7 +92,7 @@ const InvoiceView = ({
   })
 
   return (
-    <CustomBox className="invoice-view">
+    <CustomBox className="invoice-view" {...props}>
       <Box className="invoice-header">
         <Box className="invoice-meta-container">
           <Box className="invoice-entity-container">
@@ -158,22 +159,50 @@ const InvoiceView = ({
             <Typography variant="body2" sx={{ fontWeight: 'bolder' }}>
               Labor line items
             </Typography>
-            <TableContainer
-              sx={(theme) => {
-                return {
-                  '& *': {
-                    color: theme.palette.common.black,
-                  },
-                }
-              }}
-            >
+            <TableContainer>
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Description</TableCell>
-                    <TableCell align="right">Rate (USD)</TableCell>
-                    <TableCell align="right">No. of hours</TableCell>
-                    <TableCell align="right">Total</TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          maxWidth: '200px',
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                    >
+                      Description
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      Rate (USD)
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      No. of hours
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      Total
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -186,15 +215,45 @@ const InvoiceView = ({
                         }}
                       >
                         <TableCell
-                          sx={{ maxWidth: '200px' }}
+                          sx={(theme) => {
+                            return {
+                              maxWidth: '200px',
+                              color: theme.palette.common.black,
+                            }
+                          }}
                           component="th"
                           scope="row"
                         >
                           {laborItem.description}
                         </TableCell>
-                        <TableCell align="right">{laborItem.rate}</TableCell>
-                        <TableCell align="right">{laborItem.unit}</TableCell>
-                        <TableCell align="right">
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
+                          {laborItem.rate}
+                        </TableCell>
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
+                          {laborItem.unit}
+                        </TableCell>
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
                           {Number(laborItem.rate) * Number(laborItem.unit)}
                         </TableCell>
                       </TableRow>
@@ -212,26 +271,54 @@ const InvoiceView = ({
             <Typography variant="body2" sx={{ fontWeight: 'bolder' }}>
               Material line items
             </Typography>
-            <TableContainer
-              sx={(theme) => {
-                return {
-                  '& *': {
-                    color: theme.palette.common.black,
-                  },
-                }
-              }}
-            >
+            <TableContainer>
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Description</TableCell>
-                    <TableCell align="right">Unit price</TableCell>
-                    <TableCell align="right">No. of units</TableCell>
-                    <TableCell align="right">Total</TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          maxWidth: '200px',
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                    >
+                      Description
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      Unit price
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      No. of units
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      Total
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {workItems.map((workItem, index) => {
+                  {materialItems.map((workItem, index) => {
                     return (
                       <TableRow
                         key={index}
@@ -240,15 +327,45 @@ const InvoiceView = ({
                         }}
                       >
                         <TableCell
-                          sx={{ maxWidth: '200px' }}
+                          sx={(theme) => {
+                            return {
+                              maxWidth: '200px',
+                              color: theme.palette.common.black,
+                            }
+                          }}
                           component="th"
                           scope="row"
                         >
                           {workItem.description}
                         </TableCell>
-                        <TableCell align="right">{workItem.rate}</TableCell>
-                        <TableCell align="right">{workItem.unit}</TableCell>
-                        <TableCell align="right">
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
+                          {workItem.rate}
+                        </TableCell>
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
+                          {workItem.unit}
+                        </TableCell>
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
                           {Number(workItem.rate) * Number(workItem.unit)}
                         </TableCell>
                       </TableRow>
@@ -266,22 +383,50 @@ const InvoiceView = ({
             <Typography variant="body2" sx={{ fontWeight: 'bolder' }}>
               Work-related line items
             </Typography>
-            <TableContainer
-              sx={(theme) => {
-                return {
-                  '& *': {
-                    color: theme.palette.common.black,
-                  },
-                }
-              }}
-            >
+            <TableContainer>
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Description</TableCell>
-                    <TableCell align="right">Unit price</TableCell>
-                    <TableCell align="right">No. of units</TableCell>
-                    <TableCell align="right">Total</TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          maxWidth: '200px',
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                    >
+                      Description
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      Unit price
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      No. of units
+                    </TableCell>
+                    <TableCell
+                      sx={(theme) => {
+                        return {
+                          color: theme.palette.common.black,
+                        }
+                      }}
+                      align="right"
+                    >
+                      Total
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -294,15 +439,45 @@ const InvoiceView = ({
                         }}
                       >
                         <TableCell
-                          sx={{ maxWidth: '200px' }}
+                          sx={(theme) => {
+                            return {
+                              maxWidth: '200px',
+                              color: theme.palette.common.black,
+                            }
+                          }}
                           component="th"
                           scope="row"
                         >
                           {workItem.description}
                         </TableCell>
-                        <TableCell align="right">{workItem.rate}</TableCell>
-                        <TableCell align="right">{workItem.unit}</TableCell>
-                        <TableCell align="right">
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
+                          {workItem.rate}
+                        </TableCell>
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
+                          {workItem.unit}
+                        </TableCell>
+                        <TableCell
+                          sx={(theme) => {
+                            return {
+                              color: theme.palette.common.black,
+                            }
+                          }}
+                          align="right"
+                        >
                           {Number(workItem.rate) * Number(workItem.unit)}
                         </TableCell>
                       </TableRow>

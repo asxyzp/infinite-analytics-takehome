@@ -52,6 +52,9 @@ const CustomListContainer = styled(Box)(() => ({
   '& .invoices-divider': {
     marginBottom: '5px',
   },
+  '& .no-invoices-text': {
+    textAlign: 'center',
+  },
 }))
 
 // CUSTOM LIST ITEM COMPONENT
@@ -201,13 +204,13 @@ const InvoicesList = ({ invoices }) => {
           iconPosition="start"
         />
         <Tab
-          label="Paid"
-          icon={<CheckCircleOutlined fontSize="small" />}
+          label="Late"
+          icon={<ReportProblemOutlined fontSize="small" />}
           iconPosition="start"
         />
         <Tab
-          label="Late"
-          icon={<ReportProblemOutlined fontSize="small" />}
+          label="Paid"
+          icon={<CheckCircleOutlined fontSize="small" />}
           iconPosition="start"
         />
       </Tabs>
@@ -215,195 +218,222 @@ const InvoicesList = ({ invoices }) => {
       <TabPanel value={0} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {outstandingInvoices.map((invoice, index) => {
-              return (
-                <CustomListItem
-                  disablePadding
-                  key={index}
-                  secondaryAction={
-                    <>
-                      <IconButton edge="end" onClick={openMenu}>
-                        <MoreHoriz />
-                      </IconButton>
-                      <Menu
-                        open={open}
-                        anchorEl={menuAnchorEl}
-                        onClose={closeMenu}
-                        menuItems={menuItems.map((menuItem) => {
-                          if (menuItem.label === 'View')
-                            return {
-                              ...menuItem,
-                              onClick: () =>
-                                navigate(routes.invoice({ id: invoice.id })),
-                            }
-                          else if (menuItem.label === 'Edit')
-                            return {
-                              ...menuItem,
-                              onClick: () =>
-                                navigate(
-                                  routes.editInvoice({ id: invoice.id })
-                                ),
-                            }
-                          else if (menuItem.label === 'Delete')
-                            return {
-                              ...menuItem,
-                              onClick: () => setInvoiceDelete(invoice.id),
-                            }
-                        })}
-                        className="user-menu"
-                      />
-                    </>
-                  }
-                >
-                  <CustomListItemButton>
-                    <CustomListItemAvatar>
-                      <Receipt />
-                    </CustomListItemAvatar>
-                    <ListItemText>
-                      <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
-                        {invoice.title}
-                      </Typography>
-                      <Typography variant="body2">
-                        {invoice.description}
-                      </Typography>
-                      <Typography variant="body2">
-                        Due by {formatDueAt(invoice.dueAt)}
-                      </Typography>
-                    </ListItemText>
-                  </CustomListItemButton>
-                </CustomListItem>
-              )
-            })}
+            {outstandingInvoices.length > 0 ? (
+              outstandingInvoices.map((invoice, index) => {
+                return (
+                  <CustomListItem
+                    disablePadding
+                    key={index}
+                    secondaryAction={
+                      <>
+                        <IconButton edge="end" onClick={openMenu}>
+                          <MoreHoriz />
+                        </IconButton>
+                        <Menu
+                          open={open}
+                          anchorEl={menuAnchorEl}
+                          onClose={closeMenu}
+                          menuItems={menuItems.map((menuItem) => {
+                            if (menuItem.label === 'View')
+                              return {
+                                ...menuItem,
+                                onClick: () =>
+                                  navigate(routes.invoice({ id: invoice.id })),
+                              }
+                            else if (menuItem.label === 'Edit')
+                              return {
+                                ...menuItem,
+                                onClick: () =>
+                                  navigate(
+                                    routes.editInvoice({ id: invoice.id })
+                                  ),
+                              }
+                            else if (menuItem.label === 'Delete')
+                              return {
+                                ...menuItem,
+                                onClick: () => setInvoiceDelete(invoice.id),
+                              }
+                          })}
+                          className="user-menu"
+                        />
+                      </>
+                    }
+                  >
+                    <CustomListItemButton>
+                      <CustomListItemAvatar>
+                        <Receipt />
+                      </CustomListItemAvatar>
+                      <ListItemText>
+                        <Typography
+                          variant="body1"
+                          sx={{ fontWeight: 'bolder' }}
+                        >
+                          {invoice.title}
+                        </Typography>
+                        <Typography variant="body2">
+                          {invoice.description}
+                        </Typography>
+                        <Typography variant="body2">
+                          Due by {formatDueAt(invoice.dueAt)}
+                        </Typography>
+                      </ListItemText>
+                    </CustomListItemButton>
+                  </CustomListItem>
+                )
+              })
+            ) : (
+              <Typography className="no-invoices-text">
+                No outstanding invoices found
+              </Typography>
+            )}
           </CustomList>
         </CustomListContainer>
       </TabPanel>
       <TabPanel value={1} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {lateInvoices.map((invoice, index) => {
-              return (
-                <CustomListItem
-                  disablePadding
-                  key={index}
-                  secondaryAction={
-                    <>
-                      <IconButton edge="end" onClick={openMenu}>
-                        <MoreHoriz />
-                      </IconButton>
-                      <Menu
-                        open={open}
-                        anchorEl={menuAnchorEl}
-                        onClose={closeMenu}
-                        menuItems={menuItems.map((menuItem) => {
-                          if (menuItem.label === 'View')
-                            return {
-                              ...menuItem,
-                              onClick: () =>
-                                navigate(routes.invoice({ id: invoice.id })),
-                            }
-                          else if (menuItem.label === 'Edit')
-                            return {
-                              ...menuItem,
-                              onClick: () =>
-                                navigate(
-                                  routes.editInvoice({ id: invoice.id })
-                                ),
-                            }
-                          else if (menuItem.label === 'Delete')
-                            return {
-                              ...menuItem,
-                              onClick: () => setInvoiceDelete(invoice.id),
-                            }
-                        })}
-                        className="user-menu"
-                      />
-                    </>
-                  }
-                >
-                  <CustomListItemButton>
-                    <CustomListItemAvatar>
-                      <Receipt />
-                    </CustomListItemAvatar>
-                    <ListItemText>
-                      <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
-                        {invoice.title}
-                      </Typography>
-                      <Typography variant="body2">
-                        {invoice.description}
-                      </Typography>
-                      <Typography variant="body2">
-                        Due by {formatDueAt(invoice.dueAt)}
-                      </Typography>
-                    </ListItemText>
-                  </CustomListItemButton>
-                </CustomListItem>
-              )
-            })}
+            {lateInvoices.length > 0 ? (
+              lateInvoices.map((invoice, index) => {
+                return (
+                  <CustomListItem
+                    disablePadding
+                    key={index}
+                    secondaryAction={
+                      <>
+                        <IconButton edge="end" onClick={openMenu}>
+                          <MoreHoriz />
+                        </IconButton>
+                        <Menu
+                          open={open}
+                          anchorEl={menuAnchorEl}
+                          onClose={closeMenu}
+                          menuItems={menuItems.map((menuItem) => {
+                            if (menuItem.label === 'View')
+                              return {
+                                ...menuItem,
+                                onClick: () =>
+                                  navigate(routes.invoice({ id: invoice.id })),
+                              }
+                            else if (menuItem.label === 'Edit')
+                              return {
+                                ...menuItem,
+                                onClick: () =>
+                                  navigate(
+                                    routes.editInvoice({ id: invoice.id })
+                                  ),
+                              }
+                            else if (menuItem.label === 'Delete')
+                              return {
+                                ...menuItem,
+                                onClick: () => setInvoiceDelete(invoice.id),
+                              }
+                          })}
+                          className="user-menu"
+                        />
+                      </>
+                    }
+                  >
+                    <CustomListItemButton>
+                      <CustomListItemAvatar>
+                        <Receipt />
+                      </CustomListItemAvatar>
+                      <ListItemText>
+                        <Typography
+                          variant="body1"
+                          sx={{ fontWeight: 'bolder' }}
+                        >
+                          {invoice.title}
+                        </Typography>
+                        <Typography variant="body2">
+                          {invoice.description}
+                        </Typography>
+                        <Typography variant="body2">
+                          Due by {formatDueAt(invoice.dueAt)}
+                        </Typography>
+                      </ListItemText>
+                    </CustomListItemButton>
+                  </CustomListItem>
+                )
+              })
+            ) : (
+              <Typography className="no-invoices-text">
+                No late invoices found
+              </Typography>
+            )}
           </CustomList>
         </CustomListContainer>
       </TabPanel>
       <TabPanel value={2} index={tabValue}>
         <CustomListContainer>
           <CustomList sx={{ width: '100%' }}>
-            {paidInvoices.map((invoice, index) => {
-              return (
-                <CustomListItem
-                  disablePadding
-                  key={index}
-                  secondaryAction={
-                    <>
-                      <IconButton edge="end" onClick={openMenu}>
-                        <MoreHoriz />
-                      </IconButton>
-                      <Menu
-                        open={open}
-                        anchorEl={menuAnchorEl}
-                        onClose={closeMenu}
-                        menuItems={menuItems.map((menuItem) => {
-                          if (menuItem.label === 'View')
-                            return {
-                              ...menuItem,
-                              onClick: () =>
-                                navigate(routes.invoice({ id: invoice.id })),
-                            }
-                          else if (menuItem.label === 'Edit')
-                            return {
-                              ...menuItem,
-                              onClick: () =>
-                                navigate(
-                                  routes.editInvoice({ id: invoice.id })
-                                ),
-                            }
-                          else if (menuItem.label === 'Delete')
-                            return {
-                              ...menuItem,
-                              onClick: () => setInvoiceDelete(invoice.id),
-                            }
-                        })}
-                        className="user-menu"
-                      />
-                    </>
-                  }
-                >
-                  <CustomListItemButton>
-                    <CustomListItemAvatar>
-                      <Receipt />
-                    </CustomListItemAvatar>
-                    <ListItemText>
-                      <Typography variant="body1" sx={{ fontWeight: 'bolder' }}>
-                        {invoice.title}
-                      </Typography>
-                      <Typography variant="body2">
-                        {invoice.description}
-                      </Typography>
-                      <Typography variant="body2">
-                        Due by {formatDueAt(invoice.dueAt)}
-                      </Typography>
-                    </ListItemText>
-                  </CustomListItemButton>
-                </CustomListItem>
-              )
-            })}
+            {paidInvoices.length > 0 ? (
+              paidInvoices.map((invoice, index) => {
+                return (
+                  <CustomListItem
+                    disablePadding
+                    key={index}
+                    secondaryAction={
+                      <>
+                        <IconButton edge="end" onClick={openMenu}>
+                          <MoreHoriz />
+                        </IconButton>
+                        <Menu
+                          open={open}
+                          anchorEl={menuAnchorEl}
+                          onClose={closeMenu}
+                          menuItems={menuItems.map((menuItem) => {
+                            if (menuItem.label === 'View')
+                              return {
+                                ...menuItem,
+                                onClick: () =>
+                                  navigate(routes.invoice({ id: invoice.id })),
+                              }
+                            else if (menuItem.label === 'Edit')
+                              return {
+                                ...menuItem,
+                                onClick: () =>
+                                  navigate(
+                                    routes.editInvoice({ id: invoice.id })
+                                  ),
+                              }
+                            else if (menuItem.label === 'Delete')
+                              return {
+                                ...menuItem,
+                                onClick: () => setInvoiceDelete(invoice.id),
+                              }
+                          })}
+                          className="user-menu"
+                        />
+                      </>
+                    }
+                  >
+                    <CustomListItemButton>
+                      <CustomListItemAvatar>
+                        <Receipt />
+                      </CustomListItemAvatar>
+                      <ListItemText>
+                        <Typography
+                          variant="body1"
+                          sx={{ fontWeight: 'bolder' }}
+                        >
+                          {invoice.title}
+                        </Typography>
+                        <Typography variant="body2">
+                          {invoice.description}
+                        </Typography>
+                        <Typography variant="body2">
+                          Due by {formatDueAt(invoice.dueAt)}
+                        </Typography>
+                      </ListItemText>
+                    </CustomListItemButton>
+                  </CustomListItem>
+                )
+              })
+            ) : (
+              <Typography className="no-invoices-text">
+                No paid invoices found
+              </Typography>
+            )}
           </CustomList>
         </CustomListContainer>
       </TabPanel>

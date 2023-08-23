@@ -9,3 +9,7 @@ export const modalTypeAtom = atom({
   key: 'modalType',
   default: null,
 })
+export const sharedDataAtom = atom({
+  key: 'sharedData',
+  default: null,
+})
