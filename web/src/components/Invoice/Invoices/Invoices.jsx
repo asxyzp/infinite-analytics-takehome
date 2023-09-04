@@ -140,7 +140,6 @@ const InvoicesList = ({ invoices }) => {
    * @returns {undefined} undefined
    */
   const setTab = (event, value) => {
-    console.log(value)
     setTabValue(value)
   }
 
